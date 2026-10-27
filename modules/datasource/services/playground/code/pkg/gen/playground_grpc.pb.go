@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             (unknown)
-// source: api.proto
+// source: playground.proto
 
 // The datasource playground: where a person exercises the module.
 //
@@ -27,8 +27,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PlaygroundService_Version_FullMethodName = "/api.PlaygroundService/Version"
-	PlaygroundService_Prove_FullMethodName   = "/api.PlaygroundService/Prove"
+	PlaygroundService_Version_FullMethodName = "/datasource.playground.v1.PlaygroundService/Version"
+	PlaygroundService_Prove_FullMethodName   = "/datasource.playground.v1.PlaygroundService/Prove"
 )
 
 // PlaygroundServiceClient is the client API for PlaygroundService service.
@@ -160,7 +160,7 @@ func _PlaygroundService_Prove_Handler(srv interface{}, ctx context.Context, dec 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PlaygroundService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.PlaygroundService",
+	ServiceName: "datasource.playground.v1.PlaygroundService",
 	HandlerType: (*PlaygroundServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -173,5 +173,5 @@ var PlaygroundService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api.proto",
+	Metadata: "playground.proto",
 }

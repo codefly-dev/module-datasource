@@ -1,0 +1,373 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "bucket.proto",
+    "description": "The bucket datasource: an object store read as a datasource. Its API is its\nown — the module publishes no single interface every datasource implements,\nbecause a store that streams and a store that pages cannot share one shape.\nWhat it shares with every other datasource is the vocabulary below: how a\nsource is named, how an item is described, and how a credential arrives.",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "BucketService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/describe": {
+      "get": {
+        "summary": "Describe introduces this datasource to a registry.",
+        "operationId": "BucketService_Describe",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DescribeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "BucketService"
+        ]
+      }
+    },
+    "/items:fetch": {
+      "post": {
+        "summary": "FetchItem streams one item's bytes.",
+        "operationId": "BucketService_FetchItem",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/v1FetchItemChunk"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of v1FetchItemChunk"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "FetchItemRequest asks for one item's bytes.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1FetchItemRequest"
+            }
+          }
+        ],
+        "tags": [
+          "BucketService"
+        ]
+      }
+    },
+    "/items:list": {
+      "post": {
+        "summary": "ListItems answers one page of a source's items.",
+        "operationId": "BucketService_ListItems",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListItemsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "ListItemsRequest asks for one page of a source's items.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListItemsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "BucketService"
+        ]
+      }
+    },
+    "/version": {
+      "get": {
+        "summary": "Version answers which build is serving.",
+        "operationId": "BucketService_Version",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "BucketService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1AccessKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "id is the access key id, or the Azure storage account name."
+        },
+        "secret": {
+          "type": "string",
+          "description": "secret is the secret access key, or the Azure shared key."
+        }
+      },
+      "description": "AccessKey is an access key id and its secret."
+    },
+    "v1Credential": {
+      "type": "object",
+      "properties": {
+        "accessKey": {
+          "$ref": "#/definitions/v1AccessKey",
+          "description": "access_key authenticates \"s3\" and \"minio\" (access key id and secret\naccess key) and \"azure\" (account name and shared key)."
+        },
+        "accessToken": {
+          "type": "string",
+          "description": "access_token is a short-lived OAuth2 bearer for \"gcs\", used as is:\nno refresh and no exchange, so an expired one is refused by the\nstore with the store's own answer."
+        }
+      },
+      "description": "Credential opens a source for ONE call. It is never persisted, never\nreturned on any response, and never logged: the host holds custody and hands\none over per call, and this service forgets it when the call returns.\n\nA Google service-account JSON key is deliberately not offered. Key creation\nis refused by organization policy, so the only Google credential this\ndatasource accepts is a short-lived token the caller minted — by service\naccount impersonation — for this one call."
+    },
+    "v1DescribeResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name is the datasource's stable identifier within a deployment."
+        },
+        "title": {
+          "type": "string",
+          "description": "title is a short human label."
+        },
+        "kinds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "kinds lists the store kinds a source may name."
+        },
+        "requiresCredential": {
+          "type": "boolean",
+          "description": "requires_credential reports whether a read needs one. A source in a\nstore that admits anonymous reads does not."
+        },
+        "streams": {
+          "type": "boolean",
+          "description": "streams reports whether items are fetched as a stream rather than whole."
+        }
+      },
+      "description": "DescribeResponse is how a datasource introduces itself to a registry that\nknows nothing about it. The registry answers its catalog from the composed\ndatasources' own descriptions, never from a list written down in its source."
+    },
+    "v1FetchItemChunk": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "$ref": "#/definitions/v1Item",
+          "description": "item describes what is being fetched, on the first chunk only."
+        },
+        "data": {
+          "type": "string",
+          "format": "byte",
+          "description": "data is the next run of bytes."
+        }
+      },
+      "description": "FetchItemChunk is a run of an item's bytes. The first chunk carries the\nitem it is answering for; the rest carry bytes only."
+    },
+    "v1FetchItemRequest": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/v1Source",
+          "description": "source names the bucket to read."
+        },
+        "credential": {
+          "$ref": "#/definitions/v1Credential",
+          "description": "credential opens it, for this call only."
+        },
+        "key": {
+          "type": "string",
+          "description": "key is the item's key, relative to the source's prefix."
+        },
+        "version": {
+          "type": "string",
+          "description": "version, when set, refuses the read if the item no longer carries it."
+        }
+      },
+      "description": "FetchItemRequest asks for one item's bytes."
+    },
+    "v1Item": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "key is the object's key, relative to the source's prefix."
+        },
+        "sizeBytes": {
+          "type": "string",
+          "format": "int64",
+          "description": "size_bytes is the object's length."
+        },
+        "version": {
+          "type": "string",
+          "description": "version is opaque: compare it for equality, never order or parse it. An\nitem whose version is unchanged has not changed."
+        },
+        "modifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "modified_at is when the store last wrote the object."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "content_type is what the store reports, empty when it reports none."
+        }
+      },
+      "description": "Item is one object in a source, described in the host's terms."
+    },
+    "v1ListItemsRequest": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/v1Source",
+          "description": "source names the bucket to list."
+        },
+        "credential": {
+          "$ref": "#/definitions/v1Credential",
+          "description": "credential opens it, for this call only."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32",
+          "description": "limit caps the page; zero takes the store's own cap."
+        },
+        "pageToken": {
+          "type": "string",
+          "description": "page_token continues a previous page. It is opaque."
+        }
+      },
+      "description": "ListItemsRequest asks for one page of a source's items."
+    },
+    "v1ListItemsResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Item"
+          },
+          "description": "items are the objects in this page."
+        },
+        "nextPageToken": {
+          "type": "string",
+          "description": "next_page_token continues the listing, empty when it is complete."
+        }
+      },
+      "description": "ListItemsResponse is one complete page. An empty next_page_token means the\nlisting finished: a truncated page is never answered as a complete one."
+    },
+    "v1Source": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "kind is the store this source lives in: \"s3\", \"minio\", \"gcs\" or \"azure\"."
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "endpoint is an http(s) origin with no path, query or userinfo. Empty\nmeans the kind's public service; \"minio\" requires one."
+        },
+        "region": {
+          "type": "string",
+          "description": "region signs S3-style requests; empty means the store's default."
+        },
+        "bucket": {
+          "type": "string",
+          "description": "bucket is the bucket (S3, MinIO, GCS) or container (Azure)."
+        },
+        "prefix": {
+          "type": "string",
+          "description": "prefix confines a read to keys under it, as a literal key prefix. Keys\nin requests and results are relative to it."
+        }
+      },
+      "description": "Source names one bucket to read. Every field is non-secret: a source is\nconfiguration a consumer may hold, display and store. The credential that\nopens it never appears here."
+    },
+    "v1VersionResponse": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "version is the service version codefly stamped into this build."
+        }
+      },
+      "description": "VersionResponse carries the serving build's version."
+    }
+  }
+}

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: api.proto
+// source: registry.proto
 
 // The datasource registry: the generic half of the module.
 //
@@ -40,7 +40,7 @@ type VersionRequest struct {
 
 func (x *VersionRequest) Reset() {
 	*x = VersionRequest{}
-	mi := &file_api_proto_msgTypes[0]
+	mi := &file_registry_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -52,7 +52,7 @@ func (x *VersionRequest) String() string {
 func (*VersionRequest) ProtoMessage() {}
 
 func (x *VersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[0]
+	mi := &file_registry_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -65,7 +65,7 @@ func (x *VersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersionRequest.ProtoReflect.Descriptor instead.
 func (*VersionRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{0}
+	return file_registry_proto_rawDescGZIP(), []int{0}
 }
 
 // VersionResponse carries the serving build's version.
@@ -79,7 +79,7 @@ type VersionResponse struct {
 
 func (x *VersionResponse) Reset() {
 	*x = VersionResponse{}
-	mi := &file_api_proto_msgTypes[1]
+	mi := &file_registry_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -91,7 +91,7 @@ func (x *VersionResponse) String() string {
 func (*VersionResponse) ProtoMessage() {}
 
 func (x *VersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[1]
+	mi := &file_registry_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +104,7 @@ func (x *VersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersionResponse.ProtoReflect.Descriptor instead.
 func (*VersionResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{1}
+	return file_registry_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *VersionResponse) GetVersion() string {
@@ -140,7 +140,7 @@ type Datasource struct {
 
 func (x *Datasource) Reset() {
 	*x = Datasource{}
-	mi := &file_api_proto_msgTypes[2]
+	mi := &file_registry_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -152,7 +152,7 @@ func (x *Datasource) String() string {
 func (*Datasource) ProtoMessage() {}
 
 func (x *Datasource) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[2]
+	mi := &file_registry_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -165,7 +165,7 @@ func (x *Datasource) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Datasource.ProtoReflect.Descriptor instead.
 func (*Datasource) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{2}
+	return file_registry_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Datasource) GetName() string {
@@ -223,7 +223,7 @@ type AnnounceRequest struct {
 
 func (x *AnnounceRequest) Reset() {
 	*x = AnnounceRequest{}
-	mi := &file_api_proto_msgTypes[3]
+	mi := &file_registry_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -235,7 +235,7 @@ func (x *AnnounceRequest) String() string {
 func (*AnnounceRequest) ProtoMessage() {}
 
 func (x *AnnounceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[3]
+	mi := &file_registry_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -248,7 +248,7 @@ func (x *AnnounceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AnnounceRequest.ProtoReflect.Descriptor instead.
 func (*AnnounceRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{3}
+	return file_registry_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *AnnounceRequest) GetDatasource() *Datasource {
@@ -271,7 +271,7 @@ type AnnounceResponse struct {
 
 func (x *AnnounceResponse) Reset() {
 	*x = AnnounceResponse{}
-	mi := &file_api_proto_msgTypes[4]
+	mi := &file_registry_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -283,7 +283,7 @@ func (x *AnnounceResponse) String() string {
 func (*AnnounceResponse) ProtoMessage() {}
 
 func (x *AnnounceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[4]
+	mi := &file_registry_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -296,7 +296,7 @@ func (x *AnnounceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AnnounceResponse.ProtoReflect.Descriptor instead.
 func (*AnnounceResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{4}
+	return file_registry_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *AnnounceResponse) GetRenewWithinSeconds() int64 {
@@ -315,7 +315,7 @@ type GetCatalogRequest struct {
 
 func (x *GetCatalogRequest) Reset() {
 	*x = GetCatalogRequest{}
-	mi := &file_api_proto_msgTypes[5]
+	mi := &file_registry_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -327,7 +327,7 @@ func (x *GetCatalogRequest) String() string {
 func (*GetCatalogRequest) ProtoMessage() {}
 
 func (x *GetCatalogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[5]
+	mi := &file_registry_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -340,7 +340,7 @@ func (x *GetCatalogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCatalogRequest.ProtoReflect.Descriptor instead.
 func (*GetCatalogRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{5}
+	return file_registry_proto_rawDescGZIP(), []int{5}
 }
 
 // GetCatalogResponse is the catalog: every datasource currently announced, in
@@ -355,7 +355,7 @@ type GetCatalogResponse struct {
 
 func (x *GetCatalogResponse) Reset() {
 	*x = GetCatalogResponse{}
-	mi := &file_api_proto_msgTypes[6]
+	mi := &file_registry_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -367,7 +367,7 @@ func (x *GetCatalogResponse) String() string {
 func (*GetCatalogResponse) ProtoMessage() {}
 
 func (x *GetCatalogResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[6]
+	mi := &file_registry_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -380,7 +380,7 @@ func (x *GetCatalogResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCatalogResponse.ProtoReflect.Descriptor instead.
 func (*GetCatalogResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{6}
+	return file_registry_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetCatalogResponse) GetDatasources() []*Datasource {
@@ -390,11 +390,11 @@ func (x *GetCatalogResponse) GetDatasources() []*Datasource {
 	return nil
 }
 
-var File_api_proto protoreflect.FileDescriptor
+var File_registry_proto protoreflect.FileDescriptor
 
-const file_api_proto_rawDesc = "" +
+const file_registry_proto_rawDesc = "" +
 	"\n" +
-	"\tapi.proto\x12\x03api\x1a\x1cgoogle/api/annotations.proto\"\x10\n" +
+	"\x0eregistry.proto\x12\x16datasource.registry.v1\x1a\x1cgoogle/api/annotations.proto\"\x10\n" +
 	"\x0eVersionRequest\"+\n" +
 	"\x0fVersionResponse\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\"\xb1\x01\n" +
@@ -405,54 +405,54 @@ const file_api_proto_rawDesc = "" +
 	"\x05kinds\x18\x03 \x03(\tR\x05kinds\x12/\n" +
 	"\x13requires_credential\x18\x04 \x01(\bR\x12requiresCredential\x12\x18\n" +
 	"\astreams\x18\x05 \x01(\bR\astreams\x12\x18\n" +
-	"\aaddress\x18\x06 \x01(\tR\aaddress\"B\n" +
-	"\x0fAnnounceRequest\x12/\n" +
+	"\aaddress\x18\x06 \x01(\tR\aaddress\"U\n" +
+	"\x0fAnnounceRequest\x12B\n" +
 	"\n" +
-	"datasource\x18\x01 \x01(\v2\x0f.api.DatasourceR\n" +
+	"datasource\x18\x01 \x01(\v2\".datasource.registry.v1.DatasourceR\n" +
 	"datasource\"D\n" +
 	"\x10AnnounceResponse\x120\n" +
 	"\x14renew_within_seconds\x18\x01 \x01(\x03R\x12renewWithinSeconds\"\x13\n" +
-	"\x11GetCatalogRequest\"G\n" +
-	"\x12GetCatalogResponse\x121\n" +
-	"\vdatasources\x18\x01 \x03(\v2\x0f.api.DatasourceR\vdatasources2\x89\x02\n" +
-	"\x0fRegistryService\x12F\n" +
-	"\aVersion\x12\x13.api.VersionRequest\x1a\x14.api.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/version\x12Y\n" +
-	"\bAnnounce\x12\x14.api.AnnounceRequest\x1a\x15.api.AnnounceResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/datasources:announce\x12S\n" +
+	"\x11GetCatalogRequest\"Z\n" +
+	"\x12GetCatalogResponse\x12D\n" +
+	"\vdatasources\x18\x01 \x03(\v2\".datasource.registry.v1.DatasourceR\vdatasources2\xfb\x02\n" +
+	"\x0fRegistryService\x12l\n" +
+	"\aVersion\x12&.datasource.registry.v1.VersionRequest\x1a'.datasource.registry.v1.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/version\x12\x7f\n" +
+	"\bAnnounce\x12'.datasource.registry.v1.AnnounceRequest\x1a(.datasource.registry.v1.AnnounceResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/datasources:announce\x12y\n" +
 	"\n" +
-	"GetCatalog\x12\x16.api.GetCatalogRequest\x1a\x17.api.GetCatalogResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/datasourcesB\x16Z\x14registry/pkg/gen;genb\x06proto3"
+	"GetCatalog\x12).datasource.registry.v1.GetCatalogRequest\x1a*.datasource.registry.v1.GetCatalogResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/datasourcesB\x16Z\x14registry/pkg/gen;genb\x06proto3"
 
 var (
-	file_api_proto_rawDescOnce sync.Once
-	file_api_proto_rawDescData []byte
+	file_registry_proto_rawDescOnce sync.Once
+	file_registry_proto_rawDescData []byte
 )
 
-func file_api_proto_rawDescGZIP() []byte {
-	file_api_proto_rawDescOnce.Do(func() {
-		file_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_rawDesc), len(file_api_proto_rawDesc)))
+func file_registry_proto_rawDescGZIP() []byte {
+	file_registry_proto_rawDescOnce.Do(func() {
+		file_registry_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_registry_proto_rawDesc), len(file_registry_proto_rawDesc)))
 	})
-	return file_api_proto_rawDescData
+	return file_registry_proto_rawDescData
 }
 
-var file_api_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_api_proto_goTypes = []any{
-	(*VersionRequest)(nil),     // 0: api.VersionRequest
-	(*VersionResponse)(nil),    // 1: api.VersionResponse
-	(*Datasource)(nil),         // 2: api.Datasource
-	(*AnnounceRequest)(nil),    // 3: api.AnnounceRequest
-	(*AnnounceResponse)(nil),   // 4: api.AnnounceResponse
-	(*GetCatalogRequest)(nil),  // 5: api.GetCatalogRequest
-	(*GetCatalogResponse)(nil), // 6: api.GetCatalogResponse
+var file_registry_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_registry_proto_goTypes = []any{
+	(*VersionRequest)(nil),     // 0: datasource.registry.v1.VersionRequest
+	(*VersionResponse)(nil),    // 1: datasource.registry.v1.VersionResponse
+	(*Datasource)(nil),         // 2: datasource.registry.v1.Datasource
+	(*AnnounceRequest)(nil),    // 3: datasource.registry.v1.AnnounceRequest
+	(*AnnounceResponse)(nil),   // 4: datasource.registry.v1.AnnounceResponse
+	(*GetCatalogRequest)(nil),  // 5: datasource.registry.v1.GetCatalogRequest
+	(*GetCatalogResponse)(nil), // 6: datasource.registry.v1.GetCatalogResponse
 }
-var file_api_proto_depIdxs = []int32{
-	2, // 0: api.AnnounceRequest.datasource:type_name -> api.Datasource
-	2, // 1: api.GetCatalogResponse.datasources:type_name -> api.Datasource
-	0, // 2: api.RegistryService.Version:input_type -> api.VersionRequest
-	3, // 3: api.RegistryService.Announce:input_type -> api.AnnounceRequest
-	5, // 4: api.RegistryService.GetCatalog:input_type -> api.GetCatalogRequest
-	1, // 5: api.RegistryService.Version:output_type -> api.VersionResponse
-	4, // 6: api.RegistryService.Announce:output_type -> api.AnnounceResponse
-	6, // 7: api.RegistryService.GetCatalog:output_type -> api.GetCatalogResponse
+var file_registry_proto_depIdxs = []int32{
+	2, // 0: datasource.registry.v1.AnnounceRequest.datasource:type_name -> datasource.registry.v1.Datasource
+	2, // 1: datasource.registry.v1.GetCatalogResponse.datasources:type_name -> datasource.registry.v1.Datasource
+	0, // 2: datasource.registry.v1.RegistryService.Version:input_type -> datasource.registry.v1.VersionRequest
+	3, // 3: datasource.registry.v1.RegistryService.Announce:input_type -> datasource.registry.v1.AnnounceRequest
+	5, // 4: datasource.registry.v1.RegistryService.GetCatalog:input_type -> datasource.registry.v1.GetCatalogRequest
+	1, // 5: datasource.registry.v1.RegistryService.Version:output_type -> datasource.registry.v1.VersionResponse
+	4, // 6: datasource.registry.v1.RegistryService.Announce:output_type -> datasource.registry.v1.AnnounceResponse
+	6, // 7: datasource.registry.v1.RegistryService.GetCatalog:output_type -> datasource.registry.v1.GetCatalogResponse
 	5, // [5:8] is the sub-list for method output_type
 	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -460,26 +460,26 @@ var file_api_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_init() }
-func file_api_proto_init() {
-	if File_api_proto != nil {
+func init() { file_registry_proto_init() }
+func file_registry_proto_init() {
+	if File_registry_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_rawDesc), len(file_api_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_registry_proto_rawDesc), len(file_registry_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_proto_goTypes,
-		DependencyIndexes: file_api_proto_depIdxs,
-		MessageInfos:      file_api_proto_msgTypes,
+		GoTypes:           file_registry_proto_goTypes,
+		DependencyIndexes: file_registry_proto_depIdxs,
+		MessageInfos:      file_registry_proto_msgTypes,
 	}.Build()
-	File_api_proto = out.File
-	file_api_proto_goTypes = nil
-	file_api_proto_depIdxs = nil
+	File_registry_proto = out.File
+	file_registry_proto_goTypes = nil
+	file_registry_proto_depIdxs = nil
 }

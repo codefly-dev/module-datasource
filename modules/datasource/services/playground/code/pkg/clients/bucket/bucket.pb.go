@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: api.proto
+// source: bucket.proto
 
 // The bucket datasource: an object store read as a datasource. Its API is its
 // own — the module publishes no single interface every datasource implements,
@@ -39,7 +39,7 @@ type VersionRequest struct {
 
 func (x *VersionRequest) Reset() {
 	*x = VersionRequest{}
-	mi := &file_api_proto_msgTypes[0]
+	mi := &file_bucket_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -51,7 +51,7 @@ func (x *VersionRequest) String() string {
 func (*VersionRequest) ProtoMessage() {}
 
 func (x *VersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[0]
+	mi := &file_bucket_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,7 +64,7 @@ func (x *VersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersionRequest.ProtoReflect.Descriptor instead.
 func (*VersionRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{0}
+	return file_bucket_proto_rawDescGZIP(), []int{0}
 }
 
 // VersionResponse carries the serving build's version.
@@ -78,7 +78,7 @@ type VersionResponse struct {
 
 func (x *VersionResponse) Reset() {
 	*x = VersionResponse{}
-	mi := &file_api_proto_msgTypes[1]
+	mi := &file_bucket_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -90,7 +90,7 @@ func (x *VersionResponse) String() string {
 func (*VersionResponse) ProtoMessage() {}
 
 func (x *VersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[1]
+	mi := &file_bucket_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -103,7 +103,7 @@ func (x *VersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersionResponse.ProtoReflect.Descriptor instead.
 func (*VersionResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{1}
+	return file_bucket_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *VersionResponse) GetVersion() string {
@@ -136,7 +136,7 @@ type Source struct {
 
 func (x *Source) Reset() {
 	*x = Source{}
-	mi := &file_api_proto_msgTypes[2]
+	mi := &file_bucket_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -148,7 +148,7 @@ func (x *Source) String() string {
 func (*Source) ProtoMessage() {}
 
 func (x *Source) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[2]
+	mi := &file_bucket_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -161,7 +161,7 @@ func (x *Source) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Source.ProtoReflect.Descriptor instead.
 func (*Source) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{2}
+	return file_bucket_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Source) GetKind() string {
@@ -222,7 +222,7 @@ type Credential struct {
 
 func (x *Credential) Reset() {
 	*x = Credential{}
-	mi := &file_api_proto_msgTypes[3]
+	mi := &file_bucket_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -234,7 +234,7 @@ func (x *Credential) String() string {
 func (*Credential) ProtoMessage() {}
 
 func (x *Credential) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[3]
+	mi := &file_bucket_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -247,7 +247,7 @@ func (x *Credential) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Credential.ProtoReflect.Descriptor instead.
 func (*Credential) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{3}
+	return file_bucket_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Credential) GetKind() isCredential_Kind {
@@ -309,7 +309,7 @@ type AccessKey struct {
 
 func (x *AccessKey) Reset() {
 	*x = AccessKey{}
-	mi := &file_api_proto_msgTypes[4]
+	mi := &file_bucket_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -321,7 +321,7 @@ func (x *AccessKey) String() string {
 func (*AccessKey) ProtoMessage() {}
 
 func (x *AccessKey) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[4]
+	mi := &file_bucket_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -334,7 +334,7 @@ func (x *AccessKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AccessKey.ProtoReflect.Descriptor instead.
 func (*AccessKey) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{4}
+	return file_bucket_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *AccessKey) GetId() string {
@@ -371,7 +371,7 @@ type Item struct {
 
 func (x *Item) Reset() {
 	*x = Item{}
-	mi := &file_api_proto_msgTypes[5]
+	mi := &file_bucket_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -383,7 +383,7 @@ func (x *Item) String() string {
 func (*Item) ProtoMessage() {}
 
 func (x *Item) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[5]
+	mi := &file_bucket_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -396,7 +396,7 @@ func (x *Item) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Item.ProtoReflect.Descriptor instead.
 func (*Item) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{5}
+	return file_bucket_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *Item) GetKey() string {
@@ -443,7 +443,7 @@ type DescribeRequest struct {
 
 func (x *DescribeRequest) Reset() {
 	*x = DescribeRequest{}
-	mi := &file_api_proto_msgTypes[6]
+	mi := &file_bucket_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -455,7 +455,7 @@ func (x *DescribeRequest) String() string {
 func (*DescribeRequest) ProtoMessage() {}
 
 func (x *DescribeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[6]
+	mi := &file_bucket_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -468,7 +468,7 @@ func (x *DescribeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeRequest.ProtoReflect.Descriptor instead.
 func (*DescribeRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{6}
+	return file_bucket_proto_rawDescGZIP(), []int{6}
 }
 
 // DescribeResponse is how a datasource introduces itself to a registry that
@@ -493,7 +493,7 @@ type DescribeResponse struct {
 
 func (x *DescribeResponse) Reset() {
 	*x = DescribeResponse{}
-	mi := &file_api_proto_msgTypes[7]
+	mi := &file_bucket_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -505,7 +505,7 @@ func (x *DescribeResponse) String() string {
 func (*DescribeResponse) ProtoMessage() {}
 
 func (x *DescribeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[7]
+	mi := &file_bucket_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -518,7 +518,7 @@ func (x *DescribeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeResponse.ProtoReflect.Descriptor instead.
 func (*DescribeResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{7}
+	return file_bucket_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DescribeResponse) GetName() string {
@@ -573,7 +573,7 @@ type ListItemsRequest struct {
 
 func (x *ListItemsRequest) Reset() {
 	*x = ListItemsRequest{}
-	mi := &file_api_proto_msgTypes[8]
+	mi := &file_bucket_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -585,7 +585,7 @@ func (x *ListItemsRequest) String() string {
 func (*ListItemsRequest) ProtoMessage() {}
 
 func (x *ListItemsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[8]
+	mi := &file_bucket_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -598,7 +598,7 @@ func (x *ListItemsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListItemsRequest.ProtoReflect.Descriptor instead.
 func (*ListItemsRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{8}
+	return file_bucket_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListItemsRequest) GetSource() *Source {
@@ -643,7 +643,7 @@ type ListItemsResponse struct {
 
 func (x *ListItemsResponse) Reset() {
 	*x = ListItemsResponse{}
-	mi := &file_api_proto_msgTypes[9]
+	mi := &file_bucket_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -655,7 +655,7 @@ func (x *ListItemsResponse) String() string {
 func (*ListItemsResponse) ProtoMessage() {}
 
 func (x *ListItemsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[9]
+	mi := &file_bucket_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -668,7 +668,7 @@ func (x *ListItemsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListItemsResponse.ProtoReflect.Descriptor instead.
 func (*ListItemsResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{9}
+	return file_bucket_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListItemsResponse) GetItems() []*Item {
@@ -702,7 +702,7 @@ type FetchItemRequest struct {
 
 func (x *FetchItemRequest) Reset() {
 	*x = FetchItemRequest{}
-	mi := &file_api_proto_msgTypes[10]
+	mi := &file_bucket_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -714,7 +714,7 @@ func (x *FetchItemRequest) String() string {
 func (*FetchItemRequest) ProtoMessage() {}
 
 func (x *FetchItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[10]
+	mi := &file_bucket_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -727,7 +727,7 @@ func (x *FetchItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FetchItemRequest.ProtoReflect.Descriptor instead.
 func (*FetchItemRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{10}
+	return file_bucket_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *FetchItemRequest) GetSource() *Source {
@@ -772,7 +772,7 @@ type FetchItemChunk struct {
 
 func (x *FetchItemChunk) Reset() {
 	*x = FetchItemChunk{}
-	mi := &file_api_proto_msgTypes[11]
+	mi := &file_bucket_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -784,7 +784,7 @@ func (x *FetchItemChunk) String() string {
 func (*FetchItemChunk) ProtoMessage() {}
 
 func (x *FetchItemChunk) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[11]
+	mi := &file_bucket_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -797,7 +797,7 @@ func (x *FetchItemChunk) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FetchItemChunk.ProtoReflect.Descriptor instead.
 func (*FetchItemChunk) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{11}
+	return file_bucket_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *FetchItemChunk) GetItem() *Item {
@@ -814,11 +814,11 @@ func (x *FetchItemChunk) GetData() []byte {
 	return nil
 }
 
-var File_api_proto protoreflect.FileDescriptor
+var File_bucket_proto protoreflect.FileDescriptor
 
-const file_api_proto_rawDesc = "" +
+const file_bucket_proto_rawDesc = "" +
 	"\n" +
-	"\tapi.proto\x12\x03api\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x10\n" +
+	"\fbucket.proto\x12\x14datasource.bucket.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x10\n" +
 	"\x0eVersionRequest\"+\n" +
 	"\x0fVersionResponse\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\"\x80\x01\n" +
@@ -827,11 +827,11 @@ const file_api_proto_rawDesc = "" +
 	"\bendpoint\x18\x02 \x01(\tR\bendpoint\x12\x16\n" +
 	"\x06region\x18\x03 \x01(\tR\x06region\x12\x16\n" +
 	"\x06bucket\x18\x04 \x01(\tR\x06bucket\x12\x16\n" +
-	"\x06prefix\x18\x05 \x01(\tR\x06prefix\"o\n" +
+	"\x06prefix\x18\x05 \x01(\tR\x06prefix\"\x80\x01\n" +
 	"\n" +
-	"Credential\x12/\n" +
+	"Credential\x12@\n" +
 	"\n" +
-	"access_key\x18\x01 \x01(\v2\x0e.api.AccessKeyH\x00R\taccessKey\x12(\n" +
+	"access_key\x18\x01 \x01(\v2\x1f.datasource.bucket.v1.AccessKeyH\x00R\taccessKey\x12(\n" +
 	"\faccess_token\x18\x02 \x01(\tB\x03\x80\x01\x01H\x00R\vaccessTokenB\x06\n" +
 	"\x04kind\"8\n" +
 	"\tAccessKey\x12\x0e\n" +
@@ -851,80 +851,80 @@ const file_api_proto_rawDesc = "" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\x14\n" +
 	"\x05kinds\x18\x03 \x03(\tR\x05kinds\x12/\n" +
 	"\x13requires_credential\x18\x04 \x01(\bR\x12requiresCredential\x12\x18\n" +
-	"\astreams\x18\x05 \x01(\bR\astreams\"\x9d\x01\n" +
-	"\x10ListItemsRequest\x12#\n" +
-	"\x06source\x18\x01 \x01(\v2\v.api.SourceR\x06source\x12/\n" +
+	"\astreams\x18\x05 \x01(\bR\astreams\"\xbf\x01\n" +
+	"\x10ListItemsRequest\x124\n" +
+	"\x06source\x18\x01 \x01(\v2\x1c.datasource.bucket.v1.SourceR\x06source\x12@\n" +
 	"\n" +
-	"credential\x18\x02 \x01(\v2\x0f.api.CredentialR\n" +
+	"credential\x18\x02 \x01(\v2 .datasource.bucket.v1.CredentialR\n" +
 	"credential\x12\x14\n" +
 	"\x05limit\x18\x03 \x01(\x05R\x05limit\x12\x1d\n" +
 	"\n" +
-	"page_token\x18\x04 \x01(\tR\tpageToken\"\\\n" +
-	"\x11ListItemsResponse\x12\x1f\n" +
-	"\x05items\x18\x01 \x03(\v2\t.api.ItemR\x05items\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x94\x01\n" +
-	"\x10FetchItemRequest\x12#\n" +
-	"\x06source\x18\x01 \x01(\v2\v.api.SourceR\x06source\x12/\n" +
+	"page_token\x18\x04 \x01(\tR\tpageToken\"m\n" +
+	"\x11ListItemsResponse\x120\n" +
+	"\x05items\x18\x01 \x03(\v2\x1a.datasource.bucket.v1.ItemR\x05items\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xb6\x01\n" +
+	"\x10FetchItemRequest\x124\n" +
+	"\x06source\x18\x01 \x01(\v2\x1c.datasource.bucket.v1.SourceR\x06source\x12@\n" +
 	"\n" +
-	"credential\x18\x02 \x01(\v2\x0f.api.CredentialR\n" +
+	"credential\x18\x02 \x01(\v2 .datasource.bucket.v1.CredentialR\n" +
 	"credential\x12\x10\n" +
 	"\x03key\x18\x03 \x01(\tR\x03key\x12\x18\n" +
-	"\aversion\x18\x04 \x01(\tR\aversion\"C\n" +
-	"\x0eFetchItemChunk\x12\x1d\n" +
-	"\x04item\x18\x01 \x01(\v2\t.api.ItemR\x04item\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\fR\x04data2\xcb\x02\n" +
-	"\rBucketService\x12F\n" +
-	"\aVersion\x12\x13.api.VersionRequest\x1a\x14.api.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/version\x12J\n" +
-	"\bDescribe\x12\x14.api.DescribeRequest\x1a\x15.api.DescribeResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/describe\x12R\n" +
-	"\tListItems\x12\x15.api.ListItemsRequest\x1a\x16.api.ListItemsResponse\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/items:list\x12R\n" +
-	"\tFetchItem\x12\x15.api.FetchItemRequest\x1a\x13.api.FetchItemChunk\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/items:fetch0\x01B\x14Z\x12bucket/pkg/gen;genb\x06proto3"
+	"\aversion\x18\x04 \x01(\tR\aversion\"T\n" +
+	"\x0eFetchItemChunk\x12.\n" +
+	"\x04item\x18\x01 \x01(\v2\x1a.datasource.bucket.v1.ItemR\x04item\x12\x12\n" +
+	"\x04data\x18\x02 \x01(\fR\x04data2\xd3\x03\n" +
+	"\rBucketService\x12h\n" +
+	"\aVersion\x12$.datasource.bucket.v1.VersionRequest\x1a%.datasource.bucket.v1.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/version\x12l\n" +
+	"\bDescribe\x12%.datasource.bucket.v1.DescribeRequest\x1a&.datasource.bucket.v1.DescribeResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/describe\x12t\n" +
+	"\tListItems\x12&.datasource.bucket.v1.ListItemsRequest\x1a'.datasource.bucket.v1.ListItemsResponse\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/items:list\x12t\n" +
+	"\tFetchItem\x12&.datasource.bucket.v1.FetchItemRequest\x1a$.datasource.bucket.v1.FetchItemChunk\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/items:fetch0\x01B\x14Z\x12bucket/pkg/gen;genb\x06proto3"
 
 var (
-	file_api_proto_rawDescOnce sync.Once
-	file_api_proto_rawDescData []byte
+	file_bucket_proto_rawDescOnce sync.Once
+	file_bucket_proto_rawDescData []byte
 )
 
-func file_api_proto_rawDescGZIP() []byte {
-	file_api_proto_rawDescOnce.Do(func() {
-		file_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_rawDesc), len(file_api_proto_rawDesc)))
+func file_bucket_proto_rawDescGZIP() []byte {
+	file_bucket_proto_rawDescOnce.Do(func() {
+		file_bucket_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_bucket_proto_rawDesc), len(file_bucket_proto_rawDesc)))
 	})
-	return file_api_proto_rawDescData
+	return file_bucket_proto_rawDescData
 }
 
-var file_api_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
-var file_api_proto_goTypes = []any{
-	(*VersionRequest)(nil),        // 0: api.VersionRequest
-	(*VersionResponse)(nil),       // 1: api.VersionResponse
-	(*Source)(nil),                // 2: api.Source
-	(*Credential)(nil),            // 3: api.Credential
-	(*AccessKey)(nil),             // 4: api.AccessKey
-	(*Item)(nil),                  // 5: api.Item
-	(*DescribeRequest)(nil),       // 6: api.DescribeRequest
-	(*DescribeResponse)(nil),      // 7: api.DescribeResponse
-	(*ListItemsRequest)(nil),      // 8: api.ListItemsRequest
-	(*ListItemsResponse)(nil),     // 9: api.ListItemsResponse
-	(*FetchItemRequest)(nil),      // 10: api.FetchItemRequest
-	(*FetchItemChunk)(nil),        // 11: api.FetchItemChunk
+var file_bucket_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_bucket_proto_goTypes = []any{
+	(*VersionRequest)(nil),        // 0: datasource.bucket.v1.VersionRequest
+	(*VersionResponse)(nil),       // 1: datasource.bucket.v1.VersionResponse
+	(*Source)(nil),                // 2: datasource.bucket.v1.Source
+	(*Credential)(nil),            // 3: datasource.bucket.v1.Credential
+	(*AccessKey)(nil),             // 4: datasource.bucket.v1.AccessKey
+	(*Item)(nil),                  // 5: datasource.bucket.v1.Item
+	(*DescribeRequest)(nil),       // 6: datasource.bucket.v1.DescribeRequest
+	(*DescribeResponse)(nil),      // 7: datasource.bucket.v1.DescribeResponse
+	(*ListItemsRequest)(nil),      // 8: datasource.bucket.v1.ListItemsRequest
+	(*ListItemsResponse)(nil),     // 9: datasource.bucket.v1.ListItemsResponse
+	(*FetchItemRequest)(nil),      // 10: datasource.bucket.v1.FetchItemRequest
+	(*FetchItemChunk)(nil),        // 11: datasource.bucket.v1.FetchItemChunk
 	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
 }
-var file_api_proto_depIdxs = []int32{
-	4,  // 0: api.Credential.access_key:type_name -> api.AccessKey
-	12, // 1: api.Item.modified_at:type_name -> google.protobuf.Timestamp
-	2,  // 2: api.ListItemsRequest.source:type_name -> api.Source
-	3,  // 3: api.ListItemsRequest.credential:type_name -> api.Credential
-	5,  // 4: api.ListItemsResponse.items:type_name -> api.Item
-	2,  // 5: api.FetchItemRequest.source:type_name -> api.Source
-	3,  // 6: api.FetchItemRequest.credential:type_name -> api.Credential
-	5,  // 7: api.FetchItemChunk.item:type_name -> api.Item
-	0,  // 8: api.BucketService.Version:input_type -> api.VersionRequest
-	6,  // 9: api.BucketService.Describe:input_type -> api.DescribeRequest
-	8,  // 10: api.BucketService.ListItems:input_type -> api.ListItemsRequest
-	10, // 11: api.BucketService.FetchItem:input_type -> api.FetchItemRequest
-	1,  // 12: api.BucketService.Version:output_type -> api.VersionResponse
-	7,  // 13: api.BucketService.Describe:output_type -> api.DescribeResponse
-	9,  // 14: api.BucketService.ListItems:output_type -> api.ListItemsResponse
-	11, // 15: api.BucketService.FetchItem:output_type -> api.FetchItemChunk
+var file_bucket_proto_depIdxs = []int32{
+	4,  // 0: datasource.bucket.v1.Credential.access_key:type_name -> datasource.bucket.v1.AccessKey
+	12, // 1: datasource.bucket.v1.Item.modified_at:type_name -> google.protobuf.Timestamp
+	2,  // 2: datasource.bucket.v1.ListItemsRequest.source:type_name -> datasource.bucket.v1.Source
+	3,  // 3: datasource.bucket.v1.ListItemsRequest.credential:type_name -> datasource.bucket.v1.Credential
+	5,  // 4: datasource.bucket.v1.ListItemsResponse.items:type_name -> datasource.bucket.v1.Item
+	2,  // 5: datasource.bucket.v1.FetchItemRequest.source:type_name -> datasource.bucket.v1.Source
+	3,  // 6: datasource.bucket.v1.FetchItemRequest.credential:type_name -> datasource.bucket.v1.Credential
+	5,  // 7: datasource.bucket.v1.FetchItemChunk.item:type_name -> datasource.bucket.v1.Item
+	0,  // 8: datasource.bucket.v1.BucketService.Version:input_type -> datasource.bucket.v1.VersionRequest
+	6,  // 9: datasource.bucket.v1.BucketService.Describe:input_type -> datasource.bucket.v1.DescribeRequest
+	8,  // 10: datasource.bucket.v1.BucketService.ListItems:input_type -> datasource.bucket.v1.ListItemsRequest
+	10, // 11: datasource.bucket.v1.BucketService.FetchItem:input_type -> datasource.bucket.v1.FetchItemRequest
+	1,  // 12: datasource.bucket.v1.BucketService.Version:output_type -> datasource.bucket.v1.VersionResponse
+	7,  // 13: datasource.bucket.v1.BucketService.Describe:output_type -> datasource.bucket.v1.DescribeResponse
+	9,  // 14: datasource.bucket.v1.BucketService.ListItems:output_type -> datasource.bucket.v1.ListItemsResponse
+	11, // 15: datasource.bucket.v1.BucketService.FetchItem:output_type -> datasource.bucket.v1.FetchItemChunk
 	12, // [12:16] is the sub-list for method output_type
 	8,  // [8:12] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -932,12 +932,12 @@ var file_api_proto_depIdxs = []int32{
 	0,  // [0:8] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_init() }
-func file_api_proto_init() {
-	if File_api_proto != nil {
+func init() { file_bucket_proto_init() }
+func file_bucket_proto_init() {
+	if File_bucket_proto != nil {
 		return
 	}
-	file_api_proto_msgTypes[3].OneofWrappers = []any{
+	file_bucket_proto_msgTypes[3].OneofWrappers = []any{
 		(*Credential_AccessKey)(nil),
 		(*Credential_AccessToken)(nil),
 	}
@@ -945,17 +945,17 @@ func file_api_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_rawDesc), len(file_api_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_bucket_proto_rawDesc), len(file_bucket_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_proto_goTypes,
-		DependencyIndexes: file_api_proto_depIdxs,
-		MessageInfos:      file_api_proto_msgTypes,
+		GoTypes:           file_bucket_proto_goTypes,
+		DependencyIndexes: file_bucket_proto_depIdxs,
+		MessageInfos:      file_bucket_proto_msgTypes,
 	}.Build()
-	File_api_proto = out.File
-	file_api_proto_goTypes = nil
-	file_api_proto_depIdxs = nil
+	File_bucket_proto = out.File
+	file_bucket_proto_goTypes = nil
+	file_bucket_proto_depIdxs = nil
 }

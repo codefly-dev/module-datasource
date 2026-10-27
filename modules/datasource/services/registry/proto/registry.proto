@@ -7,7 +7,7 @@ syntax = "proto3";
 // composing it — never by changing anything here. A datasource announces
 // itself and renews; the catalog is what is currently announced, which makes
 // it what is actually running rather than what someone once wrote down.
-package api;
+package datasource.registry.v1;
 
 // Keep the Go import path stable while the protobuf package remains free to
 // evolve into a versioned wire namespace (for example datasource.registry.v1).

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: api.proto
+// source: playground.proto
 
 // The datasource playground: where a person exercises the module.
 //
@@ -39,7 +39,7 @@ type VersionRequest struct {
 
 func (x *VersionRequest) Reset() {
 	*x = VersionRequest{}
-	mi := &file_api_proto_msgTypes[0]
+	mi := &file_playground_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -51,7 +51,7 @@ func (x *VersionRequest) String() string {
 func (*VersionRequest) ProtoMessage() {}
 
 func (x *VersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[0]
+	mi := &file_playground_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,7 +64,7 @@ func (x *VersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersionRequest.ProtoReflect.Descriptor instead.
 func (*VersionRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{0}
+	return file_playground_proto_rawDescGZIP(), []int{0}
 }
 
 // VersionResponse carries the serving build's version.
@@ -78,7 +78,7 @@ type VersionResponse struct {
 
 func (x *VersionResponse) Reset() {
 	*x = VersionResponse{}
-	mi := &file_api_proto_msgTypes[1]
+	mi := &file_playground_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -90,7 +90,7 @@ func (x *VersionResponse) String() string {
 func (*VersionResponse) ProtoMessage() {}
 
 func (x *VersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[1]
+	mi := &file_playground_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -103,7 +103,7 @@ func (x *VersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersionResponse.ProtoReflect.Descriptor instead.
 func (*VersionResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{1}
+	return file_playground_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *VersionResponse) GetVersion() string {
@@ -133,7 +133,7 @@ type ProveRequest struct {
 
 func (x *ProveRequest) Reset() {
 	*x = ProveRequest{}
-	mi := &file_api_proto_msgTypes[2]
+	mi := &file_playground_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -145,7 +145,7 @@ func (x *ProveRequest) String() string {
 func (*ProveRequest) ProtoMessage() {}
 
 func (x *ProveRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[2]
+	mi := &file_playground_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -158,7 +158,7 @@ func (x *ProveRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProveRequest.ProtoReflect.Descriptor instead.
 func (*ProveRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{2}
+	return file_playground_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ProveRequest) GetKey() string {
@@ -196,7 +196,7 @@ type ProveResponse struct {
 
 func (x *ProveResponse) Reset() {
 	*x = ProveResponse{}
-	mi := &file_api_proto_msgTypes[3]
+	mi := &file_playground_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -208,7 +208,7 @@ func (x *ProveResponse) String() string {
 func (*ProveResponse) ProtoMessage() {}
 
 func (x *ProveResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[3]
+	mi := &file_playground_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -221,7 +221,7 @@ func (x *ProveResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProveResponse.ProtoReflect.Descriptor instead.
 func (*ProveResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{3}
+	return file_playground_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ProveResponse) GetSteps() []*ProveStep {
@@ -253,7 +253,7 @@ type ProveStep struct {
 
 func (x *ProveStep) Reset() {
 	*x = ProveStep{}
-	mi := &file_api_proto_msgTypes[4]
+	mi := &file_playground_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -265,7 +265,7 @@ func (x *ProveStep) String() string {
 func (*ProveStep) ProtoMessage() {}
 
 func (x *ProveStep) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_msgTypes[4]
+	mi := &file_playground_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -278,7 +278,7 @@ func (x *ProveStep) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProveStep.ProtoReflect.Descriptor instead.
 func (*ProveStep) Descriptor() ([]byte, []int) {
-	return file_api_proto_rawDescGZIP(), []int{4}
+	return file_playground_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ProveStep) GetName() string {
@@ -302,56 +302,56 @@ func (x *ProveStep) GetFailure() string {
 	return ""
 }
 
-var File_api_proto protoreflect.FileDescriptor
+var File_playground_proto protoreflect.FileDescriptor
 
-const file_api_proto_rawDesc = "" +
+const file_playground_proto_rawDesc = "" +
 	"\n" +
-	"\tapi.proto\x12\x03api\x1a\x1cgoogle/api/annotations.proto\"\x10\n" +
+	"\x10playground.proto\x12\x18datasource.playground.v1\x1a\x1cgoogle/api/annotations.proto\"\x10\n" +
 	"\x0eVersionRequest\"+\n" +
 	"\x0fVersionResponse\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\"R\n" +
 	"\fProveRequest\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x18\n" +
 	"\acontent\x18\x02 \x01(\tR\acontent\x12\x16\n" +
-	"\x06bucket\x18\x03 \x01(\tR\x06bucket\"M\n" +
-	"\rProveResponse\x12$\n" +
-	"\x05steps\x18\x01 \x03(\v2\x0e.api.ProveStepR\x05steps\x12\x16\n" +
+	"\x06bucket\x18\x03 \x01(\tR\x06bucket\"b\n" +
+	"\rProveResponse\x129\n" +
+	"\x05steps\x18\x01 \x03(\v2#.datasource.playground.v1.ProveStepR\x05steps\x12\x16\n" +
 	"\x06proven\x18\x02 \x01(\bR\x06proven\"Q\n" +
 	"\tProveStep\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x16\n" +
 	"\x06detail\x18\x02 \x01(\tR\x06detail\x12\x18\n" +
-	"\afailure\x18\x03 \x01(\tR\afailure2\x9e\x01\n" +
-	"\x11PlaygroundService\x12F\n" +
-	"\aVersion\x12\x13.api.VersionRequest\x1a\x14.api.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/version\x12A\n" +
-	"\x05Prove\x12\x11.api.ProveRequest\x1a\x12.api.ProveResponse\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/proveB\x18Z\x16playground/pkg/gen;genb\x06proto3"
+	"\afailure\x18\x03 \x01(\tR\afailure2\xf2\x01\n" +
+	"\x11PlaygroundService\x12p\n" +
+	"\aVersion\x12(.datasource.playground.v1.VersionRequest\x1a).datasource.playground.v1.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/version\x12k\n" +
+	"\x05Prove\x12&.datasource.playground.v1.ProveRequest\x1a'.datasource.playground.v1.ProveResponse\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/proveB\x18Z\x16playground/pkg/gen;genb\x06proto3"
 
 var (
-	file_api_proto_rawDescOnce sync.Once
-	file_api_proto_rawDescData []byte
+	file_playground_proto_rawDescOnce sync.Once
+	file_playground_proto_rawDescData []byte
 )
 
-func file_api_proto_rawDescGZIP() []byte {
-	file_api_proto_rawDescOnce.Do(func() {
-		file_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_rawDesc), len(file_api_proto_rawDesc)))
+func file_playground_proto_rawDescGZIP() []byte {
+	file_playground_proto_rawDescOnce.Do(func() {
+		file_playground_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_playground_proto_rawDesc), len(file_playground_proto_rawDesc)))
 	})
-	return file_api_proto_rawDescData
+	return file_playground_proto_rawDescData
 }
 
-var file_api_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_api_proto_goTypes = []any{
-	(*VersionRequest)(nil),  // 0: api.VersionRequest
-	(*VersionResponse)(nil), // 1: api.VersionResponse
-	(*ProveRequest)(nil),    // 2: api.ProveRequest
-	(*ProveResponse)(nil),   // 3: api.ProveResponse
-	(*ProveStep)(nil),       // 4: api.ProveStep
+var file_playground_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_playground_proto_goTypes = []any{
+	(*VersionRequest)(nil),  // 0: datasource.playground.v1.VersionRequest
+	(*VersionResponse)(nil), // 1: datasource.playground.v1.VersionResponse
+	(*ProveRequest)(nil),    // 2: datasource.playground.v1.ProveRequest
+	(*ProveResponse)(nil),   // 3: datasource.playground.v1.ProveResponse
+	(*ProveStep)(nil),       // 4: datasource.playground.v1.ProveStep
 }
-var file_api_proto_depIdxs = []int32{
-	4, // 0: api.ProveResponse.steps:type_name -> api.ProveStep
-	0, // 1: api.PlaygroundService.Version:input_type -> api.VersionRequest
-	2, // 2: api.PlaygroundService.Prove:input_type -> api.ProveRequest
-	1, // 3: api.PlaygroundService.Version:output_type -> api.VersionResponse
-	3, // 4: api.PlaygroundService.Prove:output_type -> api.ProveResponse
+var file_playground_proto_depIdxs = []int32{
+	4, // 0: datasource.playground.v1.ProveResponse.steps:type_name -> datasource.playground.v1.ProveStep
+	0, // 1: datasource.playground.v1.PlaygroundService.Version:input_type -> datasource.playground.v1.VersionRequest
+	2, // 2: datasource.playground.v1.PlaygroundService.Prove:input_type -> datasource.playground.v1.ProveRequest
+	1, // 3: datasource.playground.v1.PlaygroundService.Version:output_type -> datasource.playground.v1.VersionResponse
+	3, // 4: datasource.playground.v1.PlaygroundService.Prove:output_type -> datasource.playground.v1.ProveResponse
 	3, // [3:5] is the sub-list for method output_type
 	1, // [1:3] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -359,26 +359,26 @@ var file_api_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_init() }
-func file_api_proto_init() {
-	if File_api_proto != nil {
+func init() { file_playground_proto_init() }
+func file_playground_proto_init() {
+	if File_playground_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_rawDesc), len(file_api_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_playground_proto_rawDesc), len(file_playground_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_proto_goTypes,
-		DependencyIndexes: file_api_proto_depIdxs,
-		MessageInfos:      file_api_proto_msgTypes,
+		GoTypes:           file_playground_proto_goTypes,
+		DependencyIndexes: file_playground_proto_depIdxs,
+		MessageInfos:      file_playground_proto_msgTypes,
 	}.Build()
-	File_api_proto = out.File
-	file_api_proto_goTypes = nil
-	file_api_proto_depIdxs = nil
+	File_playground_proto = out.File
+	file_playground_proto_goTypes = nil
+	file_playground_proto_depIdxs = nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             (unknown)
-// source: api.proto
+// source: bucket.proto
 
 // The bucket datasource: an object store read as a datasource. Its API is its
 // own — the module publishes no single interface every datasource implements,
@@ -26,10 +26,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	BucketService_Version_FullMethodName   = "/api.BucketService/Version"
-	BucketService_Describe_FullMethodName  = "/api.BucketService/Describe"
-	BucketService_ListItems_FullMethodName = "/api.BucketService/ListItems"
-	BucketService_FetchItem_FullMethodName = "/api.BucketService/FetchItem"
+	BucketService_Version_FullMethodName   = "/datasource.bucket.v1.BucketService/Version"
+	BucketService_Describe_FullMethodName  = "/datasource.bucket.v1.BucketService/Describe"
+	BucketService_ListItems_FullMethodName = "/datasource.bucket.v1.BucketService/ListItems"
+	BucketService_FetchItem_FullMethodName = "/datasource.bucket.v1.BucketService/FetchItem"
 )
 
 // BucketServiceClient is the client API for BucketService service.
@@ -231,7 +231,7 @@ type BucketService_FetchItemServer = grpc.ServerStreamingServer[FetchItemChunk]
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var BucketService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.BucketService",
+	ServiceName: "datasource.bucket.v1.BucketService",
 	HandlerType: (*BucketServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -254,5 +254,5 @@ var BucketService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "api.proto",
+	Metadata: "bucket.proto",
 }

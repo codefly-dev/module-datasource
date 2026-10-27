@@ -1,0 +1,172 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "playground.proto",
+    "description": "The datasource playground: where a person exercises the module.\n\nIt plays the host's part. In a deployment the host holds a tenant's\ncredential and hands one over for a single call; here the playground reads\nthe tenant store's own credential from the composition and passes it the\nsame way, so what runs is the real read path and not a stub of it.",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "PlaygroundService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/prove": {
+      "post": {
+        "summary": "Prove writes an object into the tenant store and reads it back through\nthe bucket datasource, carrying the store's credential per call.",
+        "operationId": "PlaygroundService_Prove",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ProveResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "ProveRequest runs the bucket datasource against the composed tenant store.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ProveRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlaygroundService"
+        ]
+      }
+    },
+    "/version": {
+      "get": {
+        "summary": "Version answers which build is serving.",
+        "operationId": "PlaygroundService_Version",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "PlaygroundService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1ProveRequest": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "key is the object to write and read back. Empty picks a generated one,\nso a person can run the proof repeatedly without choosing a name."
+        },
+        "content": {
+          "type": "string",
+          "description": "content is what to write. Empty writes a generated line."
+        },
+        "bucket": {
+          "type": "string",
+          "description": "bucket is the tenant store's bucket to read. It is part of a source's\nconfiguration — in a deployment the person who connects the source names\nit — and the object-storage agent publishes no bucket name to its\ndependents, so the proof is told rather than guessing. Empty uses the\nagent's own default for a store with none configured."
+        }
+      },
+      "description": "ProveRequest runs the bucket datasource against the composed tenant store."
+    },
+    "v1ProveResponse": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ProveStep"
+          },
+          "description": "steps are what the proof did."
+        },
+        "proven": {
+          "type": "boolean",
+          "description": "proven is true when every step succeeded."
+        }
+      },
+      "description": "ProveResponse is what happened, step by step, in the order it happened. A\nstep that failed carries its reason and is the last one."
+    },
+    "v1ProveStep": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name says which step this is."
+        },
+        "detail": {
+          "type": "string",
+          "description": "detail is what the step observed, in a person's terms."
+        },
+        "failure": {
+          "type": "string",
+          "description": "failure is empty when the step succeeded."
+        }
+      },
+      "description": "ProveStep is one step of the proof."
+    },
+    "v1VersionResponse": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "version is the service version codefly stamped into this build."
+        }
+      },
+      "description": "VersionResponse carries the serving build's version."
+    }
+  }
+}

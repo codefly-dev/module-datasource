@@ -5,7 +5,7 @@ syntax = "proto3";
 // because a store that streams and a store that pages cannot share one shape.
 // What it shares with every other datasource is the vocabulary below: how a
 // source is named, how an item is described, and how a credential arrives.
-package api;
+package datasource.bucket.v1;
 
 // Keep the Go import path stable while the protobuf package remains free to
 // evolve into a versioned wire namespace (for example datasource.bucket.v1).

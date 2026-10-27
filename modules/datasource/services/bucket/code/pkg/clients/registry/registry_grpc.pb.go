@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             (unknown)
-// source: api.proto
+// source: registry.proto
 
 // The datasource registry: the generic half of the module.
 //
@@ -28,9 +28,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RegistryService_Version_FullMethodName    = "/api.RegistryService/Version"
-	RegistryService_Announce_FullMethodName   = "/api.RegistryService/Announce"
-	RegistryService_GetCatalog_FullMethodName = "/api.RegistryService/GetCatalog"
+	RegistryService_Version_FullMethodName    = "/datasource.registry.v1.RegistryService/Version"
+	RegistryService_Announce_FullMethodName   = "/datasource.registry.v1.RegistryService/Announce"
+	RegistryService_GetCatalog_FullMethodName = "/datasource.registry.v1.RegistryService/GetCatalog"
 )
 
 // RegistryServiceClient is the client API for RegistryService service.
@@ -195,7 +195,7 @@ func _RegistryService_GetCatalog_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RegistryService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.RegistryService",
+	ServiceName: "datasource.registry.v1.RegistryService",
 	HandlerType: (*RegistryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -212,5 +212,5 @@ var RegistryService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api.proto",
+	Metadata: "registry.proto",
 }

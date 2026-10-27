@@ -6,7 +6,7 @@ syntax = "proto3";
 // credential and hands one over for a single call; here the playground reads
 // the tenant store's own credential from the composition and passes it the
 // same way, so what runs is the real read path and not a stub of it.
-package api;
+package datasource.playground.v1;
 
 // Keep the Go import path stable while the protobuf package remains free to
 // evolve into a versioned wire namespace (for example datasource.playground.v1).

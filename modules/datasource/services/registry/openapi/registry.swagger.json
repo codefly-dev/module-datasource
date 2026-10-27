@@ -1,0 +1,209 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "registry.proto",
+    "description": "The datasource registry: the generic half of the module.\n\nIt knows no datasource. Its catalog is what the datasources a deployment\ncomposed have announced about themselves, so a deployment adds one by\ncomposing it — never by changing anything here. A datasource announces\nitself and renews; the catalog is what is currently announced, which makes\nit what is actually running rather than what someone once wrote down.",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "RegistryService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/datasources": {
+      "get": {
+        "summary": "GetCatalog answers every datasource currently announced.",
+        "operationId": "RegistryService_GetCatalog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetCatalogResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "RegistryService"
+        ]
+      }
+    },
+    "/datasources:announce": {
+      "post": {
+        "summary": "Announce publishes a datasource, or renews it.",
+        "operationId": "RegistryService_Announce",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1AnnounceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "AnnounceRequest is a datasource joining the catalog, or renewing its place\nin it. Announcing again replaces what the catalog holds, so a datasource\nthat changed what it can do says so by announcing it.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AnnounceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RegistryService"
+        ]
+      }
+    },
+    "/version": {
+      "get": {
+        "summary": "Version answers which build is serving.",
+        "operationId": "RegistryService_Version",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "RegistryService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1AnnounceRequest": {
+      "type": "object",
+      "properties": {
+        "datasource": {
+          "$ref": "#/definitions/v1Datasource",
+          "description": "datasource is what to publish."
+        }
+      },
+      "description": "AnnounceRequest is a datasource joining the catalog, or renewing its place\nin it. Announcing again replaces what the catalog holds, so a datasource\nthat changed what it can do says so by announcing it."
+    },
+    "v1AnnounceResponse": {
+      "type": "object",
+      "properties": {
+        "renewWithinSeconds": {
+          "type": "string",
+          "format": "int64",
+          "description": "renew_within_seconds is how long this announcement stands. A datasource\nthat has not renewed within it leaves the catalog, so a catalog never\nadvertises something that stopped running."
+        }
+      },
+      "description": "AnnounceResponse tells the datasource when to announce again."
+    },
+    "v1Datasource": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name is the datasource's stable identifier within the deployment."
+        },
+        "title": {
+          "type": "string",
+          "description": "title is a short human label."
+        },
+        "kinds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "kinds are whatever the datasource says it can reach."
+        },
+        "requiresCredential": {
+          "type": "boolean",
+          "description": "requires_credential reports whether a read needs one."
+        },
+        "streams": {
+          "type": "boolean",
+          "description": "streams reports whether items arrive as a stream."
+        },
+        "address": {
+          "type": "string",
+          "description": "address is where a consumer reaches this datasource's own API. The\nmodule publishes no single interface, so a consumer dials the\ndatasource directly and speaks whatever the datasource speaks."
+        }
+      },
+      "description": "Datasource is a datasource as it describes itself. Every field is the\ndatasource's own answer: the registry neither interprets nor validates\nthem, because a registry that understood them would be a registry that has\nto change when a new kind of datasource arrives."
+    },
+    "v1GetCatalogResponse": {
+      "type": "object",
+      "properties": {
+        "datasources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Datasource"
+          },
+          "description": "datasources are what the deployment composed and what is running."
+        }
+      },
+      "description": "GetCatalogResponse is the catalog: every datasource currently announced, in\nname order so two reads of an unchanged catalog read the same."
+    },
+    "v1VersionResponse": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "version is the service version codefly stamped into this build."
+        }
+      },
+      "description": "VersionResponse carries the serving build's version."
+    }
+  }
+}

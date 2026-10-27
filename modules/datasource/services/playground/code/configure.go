@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"net"
+	"net/url"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -93,6 +95,7 @@ func tenantStore(tenant interface {
 	if err != nil {
 		return business.Store{}, fmt.Errorf("cannot read the tenant store's endpoint — does the tenant service declare a `minio` endpoint? %w", err)
 	}
+	endpoint = asTheGatewayReachesIt(endpoint)
 	accessKey, err := tenant.Configuration(storageConfigurationGroup, "minio_access_key")
 	if err != nil {
 		return business.Store{}, fmt.Errorf("cannot read the tenant store's access key: %w", err)
@@ -117,3 +120,41 @@ func withTokenStream(token string) grpc.StreamClientInterceptor {
 		return streamer(metadata.AppendToOutgoingContext(ctx, gatewayTokenHeader, token), desc, cc, method, opts...)
 	}
 }
+
+// asTheGatewayReachesIt rewrites the tenant store's origin from this process's
+// view to the view the datasource's gateway has of it.
+//
+// THIS IS A STOPGAP, not a fix. A bound read may name a non-public destination
+// only when it is one of the gateway's own composed endpoints, and the gateway
+// builds that set from its dependencies as a CONTAINER reaches them. This
+// playground is a native process, so the agent resolved `minio_endpoint` for
+// the native view — `localhost:<port>` — which the gateway has never heard of
+// and refuses with PERMISSION_DENIED.
+//
+// The real fix belongs to the object-storage agent, which is the only party
+// that knows both views: it should publish the store's origin as its own
+// gateway reaches it, rather than leaving every caller to guess. Until it
+// does, a native caller on a local run translates, and only for a loopback
+// origin — anything else is passed through untouched, so a deployment, where
+// the host supplies a real public endpoint, never goes near this.
+func asTheGatewayReachesIt(origin string) string {
+	parsed, err := url.Parse(origin)
+	if err != nil || parsed.Hostname() == "" {
+		return origin
+	}
+	switch parsed.Hostname() {
+	case "localhost", "127.0.0.1", "::1":
+	default:
+		return origin
+	}
+	host := containerHostFromOutside
+	if port := parsed.Port(); port != "" {
+		host = net.JoinHostPort(host, port)
+	}
+	parsed.Host = host
+	return parsed.String()
+}
+
+// containerHostFromOutside is how a container reaches a port published on the
+// host. The object-storage agent's own composed-endpoint handling names it.
+const containerHostFromOutside = "host.docker.internal"
