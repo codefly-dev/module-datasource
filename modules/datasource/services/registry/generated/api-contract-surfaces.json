@@ -1,0 +1,24 @@
+{
+  "grpc": [
+    {
+      "name": "RegistryService",
+      "fullName": "datasource.registry.v1.RegistryService",
+      "procedures": [
+        "/datasource.registry.v1.RegistryService/Version",
+        "/datasource.registry.v1.RegistryService/Announce",
+        "/datasource.registry.v1.RegistryService/GetCatalog"
+      ]
+    }
+  ],
+  "connect": [
+    {
+      "name": "RegistryService",
+      "fullName": "datasource.registry.v1.RegistryService",
+      "procedures": [
+        "/datasource.registry.v1.RegistryService/Version",
+        "/datasource.registry.v1.RegistryService/Announce",
+        "/datasource.registry.v1.RegistryService/GetCatalog"
+      ]
+    }
+  ]
+}

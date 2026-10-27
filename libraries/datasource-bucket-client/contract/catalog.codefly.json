@@ -1,0 +1,28 @@
+{
+  "schema": "codefly/module-api-contracts/v1",
+  "package": "codefly/datasource",
+  "version": "0.0.1",
+  "endpoints": [
+    {
+      "service": "bucket",
+      "endpoint": "connect",
+      "api": "connect",
+      "kind": "protobuf",
+      "package": "datasource.bucket.v1",
+      "path": "contract.binpb",
+      "digest": "sha256:a378317cf5d91cc40066ecc49e2fb82daa730134dcf85a486462b05d3bddf6fa",
+      "services": [
+        {
+          "name": "BucketService",
+          "fullName": "datasource.bucket.v1.BucketService",
+          "procedures": [
+            "/datasource.bucket.v1.BucketService/Describe",
+            "/datasource.bucket.v1.BucketService/FetchItem",
+            "/datasource.bucket.v1.BucketService/ListItems",
+            "/datasource.bucket.v1.BucketService/Version"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+# This module's package identity: what a render names its release from, and
+# what a consumer resolves its generated client against.
+#
+# `storage` and `tenant` are deliberately NOT published. `tenant` declares the
+# object-storage agent's `minio` endpoint, which the agent refuses to deploy —
+# it stands in for a tenant's own bucket on a local run — and `storage` is the
+# gateway that reads it there. A deployment composes its own gateway and reaches
+# real tenant stores, so neither belongs in this module's published surface.
+schema: codefly/module-package/v2
+kind: module-package
+id: codefly/datasource
+version: 0.0.1
+# The floor is the release that resolves a module's package manifest for a
+# native run, as record-store's does.
+minimum-codefly-version: ">=0.1.187 <1.0.0"
+artifact-roots:
+  - contracts
+  - services
+services:
+  - name: registry
+    endpoints: [grpc, connect, rest]
+    api-contracts:
+      - endpoint: grpc
+        kind: protobuf
+        package: datasource.registry.v1
+        path: contracts/api/registry/grpc/contract.binpb
+        digest: sha256:c474fe84a782fab7e75d02fb54d518638407b698d50c27eb38b19edf669e63bd
+      - endpoint: connect
+        kind: protobuf
+        package: datasource.registry.v1
+        path: contracts/api/registry/connect/contract.binpb
+        digest: sha256:c474fe84a782fab7e75d02fb54d518638407b698d50c27eb38b19edf669e63bd
+  - name: bucket
+    endpoints: [grpc, connect, rest]
+    api-contracts:
+      - endpoint: grpc
+        kind: protobuf
+        package: datasource.bucket.v1
+        path: contracts/api/bucket/grpc/contract.binpb
+        digest: sha256:a378317cf5d91cc40066ecc49e2fb82daa730134dcf85a486462b05d3bddf6fa
+      - endpoint: connect
+        kind: protobuf
+        package: datasource.bucket.v1
+        path: contracts/api/bucket/connect/contract.binpb
+        digest: sha256:a378317cf5d91cc40066ecc49e2fb82daa730134dcf85a486462b05d3bddf6fa
+contracts:
+  composition: ">=2.0.0 <3.0.0"

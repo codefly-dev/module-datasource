@@ -1,0 +1,9 @@
+# Publication configuration for `codefly generate contracts`. Each service
+# exports two protobuf endpoints (grpc and connect), so the catalog row of each
+# names the procedures that listener serves, read from the inventories below.
+# Each service's own test writes and checks its file from the gRPC services it
+# registers (code/pkg/adapters/surfaces_test.go); never edit one by hand.
+schema: codefly/module-contracts-config/v1
+surfaces:
+  registry: generated/api-contract-surfaces.json
+  bucket: generated/api-contract-surfaces.json

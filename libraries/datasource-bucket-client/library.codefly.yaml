@@ -1,0 +1,21 @@
+kind: library
+name: datasource-bucket-client
+version: 0.0.1
+languages:
+    - name: typescript
+      path: typescript/
+      exports:
+        - '@codefly-dev/datasource-bucket-client'
+sources:
+    - package: codefly/datasource
+      version: 0.0.1
+      module: datasource
+      service: bucket
+      endpoint: connect
+      contract-digest: sha256:a378317cf5d91cc40066ecc49e2fb82daa730134dcf85a486462b05d3bddf6fa
+      services:
+        - BucketService
+generated-by:
+    codefly: development
+    companion: ghcr.io/codefly-dev/proto:0.0.16
+    facade: true

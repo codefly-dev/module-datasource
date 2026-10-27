@@ -2,38 +2,52 @@ name: playground
 version: 0.0.0
 agent:
     kind: codefly:service
-    name: go-grpc
-    version: 0.1.69
+    name: nextjs
+    version: 0.0.169
     publisher: codefly.dev
 endpoints:
-    - name: grpc
-    - name: rest
+    # Development only: the module's interface does not export it, so nothing
+    # outside this workspace reaches the playground.
+    - name: http
+      visibility: public
+      exposure: none
+# The generated clients the playground dials through. Local setup links them
+# from libraries/, so the playground consumes exactly what a published consumer
+# would, without waiting on a release.
+library-dependencies:
+    - name: datasource-registry-client
+      version: ^0.0.1
+      languages:
+        - typescript
+    - name: datasource-bucket-client
+      version: ^0.0.1
+      languages:
+        - typescript
 service-dependencies:
+    # The catalog, and the datasource itself — both over Connect, which is what
+    # a browser speaks.
+    - name: registry
+      kind: runtime
+      endpoints:
+        - name: connect
+          api: connect
     - name: bucket
       kind: runtime
       endpoints:
-        - name: grpc
-          api: grpc
+        - name: connect
+          api: connect
+    # The tenant store, for the one privileged thing the playground does on a
+    # person's behalf: seed an object to read back, and hand over the store's
+    # credential per call as the host would. Both happen server-side.
     - name: tenant
       kind: runtime
       endpoints:
         - name: grpc
           api: grpc
 spec:
-    Settings:
-        GoAgentSettings:
-            debug-symbols: false
-            hot-reload: true
-            race-condition-detection-run: false
-            source-dir: ""
-            with-cgo: false
-            with-workspace: false
-    connect-endpoint: false
-    cors: {}
+    auth-provider: none
     docker-image: ""
-    health:
-        mode: grpc
-    protocol-output-dirs: []
-    protocol-source-dir: ""
-    rest-endpoint: true
-    runtime-assets: []
+    execution-profiles: {}
+    hot-reload: true
+    mode: ssr
+    source-dir: ""

@@ -6,6 +6,10 @@ agent:
     version: 0.1.69
     publisher: codefly.dev
 endpoints:
+    # The playground is a browser, and a browser speaks Connect.
+    - name: connect
+      api: connect
+      visibility: internal
     - name: grpc
     - name: rest
 spec:
@@ -17,7 +21,7 @@ spec:
             source-dir: ""
             with-cgo: false
             with-workspace: false
-    connect-endpoint: false
+    connect-endpoint: true
     cors: {}
     docker-image: ""
     health:

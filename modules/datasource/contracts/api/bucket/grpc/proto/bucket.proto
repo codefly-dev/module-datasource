@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+// The bucket datasource: an object store read as a datasource. Its API is its
+// own — the module publishes no single interface every datasource implements,
+// because a store that streams and a store that pages cannot share one shape.
+// What it shares with every other datasource is the vocabulary below: how a
+// source is named, how an item is described, and how a credential arrives.
+package datasource.bucket.v1;
+
+// Keep the Go import path stable while the protobuf package remains free to
+// evolve into a versioned wire namespace (for example datasource.bucket.v1).
+option go_package = "bucket/pkg/gen;gen";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+// VersionRequest asks which build is serving.
+message VersionRequest {
+}
+
+// VersionResponse carries the serving build's version.
+message VersionResponse {
+    // version is the service version codefly stamped into this build.
+    string version = 1;
+}
+
+// Source names one bucket to read. Every field is non-secret: a source is
+// configuration a consumer may hold, display and store. The credential that
+// opens it never appears here.
+message Source {
+    // kind is the store this source lives in: "s3", "minio", "gcs" or "azure".
+    string kind = 1;
+    // endpoint is an http(s) origin with no path, query or userinfo. Empty
+    // means the kind's public service; "minio" requires one.
+    string endpoint = 2;
+    // region signs S3-style requests; empty means the store's default.
+    string region = 3;
+    // bucket is the bucket (S3, MinIO, GCS) or container (Azure).
+    string bucket = 4;
+    // prefix confines a read to keys under it, as a literal key prefix. Keys
+    // in requests and results are relative to it.
+    string prefix = 5;
+}
+
+// Credential opens a source for ONE call. It is never persisted, never
+// returned on any response, and never logged: the host holds custody and hands
+// one over per call, and this service forgets it when the call returns.
+//
+// A Google service-account JSON key is deliberately not offered. Key creation
+// is refused by organization policy, so the only Google credential this
+// datasource accepts is a short-lived token the caller minted — by service
+// account impersonation — for this one call.
+message Credential {
+    // kind is the one credential form this call carries.
+    oneof kind {
+        // access_key authenticates "s3" and "minio" (access key id and secret
+        // access key) and "azure" (account name and shared key).
+        AccessKey access_key = 1;
+        // access_token is a short-lived OAuth2 bearer for "gcs", used as is:
+        // no refresh and no exchange, so an expired one is refused by the
+        // store with the store's own answer.
+        string access_token = 2 [debug_redact = true];
+    }
+}
+
+// AccessKey is an access key id and its secret.
+message AccessKey {
+    // id is the access key id, or the Azure storage account name.
+    string id = 1;
+    // secret is the secret access key, or the Azure shared key.
+    string secret = 2 [debug_redact = true];
+}
+
+// Item is one object in a source, described in the host's terms.
+message Item {
+    // key is the object's key, relative to the source's prefix.
+    string key = 1;
+    // size_bytes is the object's length.
+    int64 size_bytes = 2;
+    // version is opaque: compare it for equality, never order or parse it. An
+    // item whose version is unchanged has not changed.
+    string version = 3;
+    // modified_at is when the store last wrote the object.
+    google.protobuf.Timestamp modified_at = 4;
+    // content_type is what the store reports, empty when it reports none.
+    string content_type = 5;
+}
+
+// DescribeRequest asks what this datasource is.
+message DescribeRequest {
+}
+
+// DescribeResponse is how a datasource introduces itself to a registry that
+// knows nothing about it. The registry answers its catalog from the composed
+// datasources' own descriptions, never from a list written down in its source.
+message DescribeResponse {
+    // name is the datasource's stable identifier within a deployment.
+    string name = 1;
+    // title is a short human label.
+    string title = 2;
+    // kinds lists the store kinds a source may name.
+    repeated string kinds = 3;
+    // requires_credential reports whether a read needs one. A source in a
+    // store that admits anonymous reads does not.
+    bool requires_credential = 4;
+    // streams reports whether items are fetched as a stream rather than whole.
+    bool streams = 5;
+}
+
+// ListItemsRequest asks for one page of a source's items.
+message ListItemsRequest {
+    // source names the bucket to list.
+    Source source = 1;
+    // credential opens it, for this call only.
+    Credential credential = 2;
+    // limit caps the page; zero takes the store's own cap.
+    int32 limit = 3;
+    // page_token continues a previous page. It is opaque.
+    string page_token = 4;
+}
+
+// ListItemsResponse is one complete page. An empty next_page_token means the
+// listing finished: a truncated page is never answered as a complete one.
+message ListItemsResponse {
+    // items are the objects in this page.
+    repeated Item items = 1;
+    // next_page_token continues the listing, empty when it is complete.
+    string next_page_token = 2;
+}
+
+// FetchItemRequest asks for one item's bytes.
+message FetchItemRequest {
+    // source names the bucket to read.
+    Source source = 1;
+    // credential opens it, for this call only.
+    Credential credential = 2;
+    // key is the item's key, relative to the source's prefix.
+    string key = 3;
+    // version, when set, refuses the read if the item no longer carries it.
+    string version = 4;
+}
+
+// FetchItemChunk is a run of an item's bytes. The first chunk carries the
+// item it is answering for; the rest carry bytes only.
+message FetchItemChunk {
+    // item describes what is being fetched, on the first chunk only.
+    Item item = 1;
+    // data is the next run of bytes.
+    bytes data = 2;
+}
+
+// BucketService reads object stores as datasources.
+service BucketService {
+    // Version answers which build is serving.
+    rpc Version(VersionRequest) returns (VersionResponse) {
+        option (google.api.http) = {
+            get: "/version"
+        };
+    }
+
+    // Describe introduces this datasource to a registry.
+    rpc Describe(DescribeRequest) returns (DescribeResponse) {
+        option (google.api.http) = {
+            get: "/describe"
+        };
+    }
+
+    // ListItems answers one page of a source's items.
+    rpc ListItems(ListItemsRequest) returns (ListItemsResponse) {
+        option (google.api.http) = {
+            post: "/items:list"
+            body: "*"
+        };
+    }
+
+    // FetchItem streams one item's bytes.
+    rpc FetchItem(FetchItemRequest) returns (stream FetchItemChunk) {
+        option (google.api.http) = {
+            post: "/items:fetch"
+            body: "*"
+        };
+    }
+}

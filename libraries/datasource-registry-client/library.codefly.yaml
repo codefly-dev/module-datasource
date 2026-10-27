@@ -1,0 +1,21 @@
+kind: library
+name: datasource-registry-client
+version: 0.0.1
+languages:
+    - name: typescript
+      path: typescript/
+      exports:
+        - '@codefly-dev/datasource-registry-client'
+sources:
+    - package: codefly/datasource
+      version: 0.0.1
+      module: datasource
+      service: registry
+      endpoint: connect
+      contract-digest: sha256:c474fe84a782fab7e75d02fb54d518638407b698d50c27eb38b19edf669e63bd
+      services:
+        - RegistryService
+generated-by:
+    codefly: development
+    companion: ghcr.io/codefly-dev/proto:0.0.16
+    facade: true

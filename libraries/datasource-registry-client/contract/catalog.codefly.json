@@ -1,0 +1,27 @@
+{
+  "schema": "codefly/module-api-contracts/v1",
+  "package": "codefly/datasource",
+  "version": "0.0.1",
+  "endpoints": [
+    {
+      "service": "registry",
+      "endpoint": "connect",
+      "api": "connect",
+      "kind": "protobuf",
+      "package": "datasource.registry.v1",
+      "path": "contract.binpb",
+      "digest": "sha256:c474fe84a782fab7e75d02fb54d518638407b698d50c27eb38b19edf669e63bd",
+      "services": [
+        {
+          "name": "RegistryService",
+          "fullName": "datasource.registry.v1.RegistryService",
+          "procedures": [
+            "/datasource.registry.v1.RegistryService/Announce",
+            "/datasource.registry.v1.RegistryService/GetCatalog",
+            "/datasource.registry.v1.RegistryService/Version"
+          ]
+        }
+      ]
+    }
+  ]
+}

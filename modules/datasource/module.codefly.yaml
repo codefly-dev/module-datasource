@@ -5,4 +5,28 @@ services:
     - name: bucket
     - name: storage
     - name: tenant
+    # The Next.js consumer. Development only: it is not among the published
+    # services below, so nothing outside this workspace reaches it.
     - name: playground
+# What this module exports. A consumer — the playground today, a host
+# tomorrow — generates its client from these contracts, so the registry's
+# catalog and a datasource's own API are the module's published surface.
+#
+# `connect` is what a browser speaks and what the generated TypeScript client
+# dials; `grpc` is the same contract for a consumer inside the cell. Both are
+# internal: a datasource is reached through its deployment's own door, and this
+# module names no solution.
+interface:
+    endpoints:
+        - service: registry
+          endpoint: grpc
+          visibility: internal
+        - service: registry
+          endpoint: connect
+          visibility: internal
+        - service: bucket
+          endpoint: grpc
+          visibility: internal
+        - service: bucket
+          endpoint: connect
+          visibility: internal

@@ -1,0 +1,26 @@
+{
+  "grpc": [
+    {
+      "name": "BucketService",
+      "fullName": "datasource.bucket.v1.BucketService",
+      "procedures": [
+        "/datasource.bucket.v1.BucketService/Version",
+        "/datasource.bucket.v1.BucketService/Describe",
+        "/datasource.bucket.v1.BucketService/ListItems",
+        "/datasource.bucket.v1.BucketService/FetchItem"
+      ]
+    }
+  ],
+  "connect": [
+    {
+      "name": "BucketService",
+      "fullName": "datasource.bucket.v1.BucketService",
+      "procedures": [
+        "/datasource.bucket.v1.BucketService/Version",
+        "/datasource.bucket.v1.BucketService/Describe",
+        "/datasource.bucket.v1.BucketService/ListItems",
+        "/datasource.bucket.v1.BucketService/FetchItem"
+      ]
+    }
+  ]
+}
