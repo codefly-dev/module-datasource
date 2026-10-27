@@ -1,0 +1,51 @@
+{
+  "schema": "codefly/runnable-operations/v1",
+  "workspace": "datasource",
+  "module": "datasource",
+  "operations": [
+    {
+      "name": "bucket-connect-describe",
+      "version": "0.0.1",
+      "digest": "b7b45d246227a61f7ad7a9d673bebba62c9c5bb0e4f623421eb10c10363eec4f",
+      "service": "bucket",
+      "endpoint": "connect",
+      "method": "/datasource.bucket.v1.BucketService/Describe",
+      "input_message": "datasource.bucket.v1.DescribeRequest",
+      "output_message": "datasource.bucket.v1.DescribeResponse",
+      "path": "contracts/runnables/bucket/connect/Describe"
+    },
+    {
+      "name": "bucket-grpc-describe",
+      "version": "0.0.1",
+      "digest": "1fc17627f61cff1c315cfdef664fae38c90699a7cffb28cb330eb73f9482073b",
+      "service": "bucket",
+      "endpoint": "grpc",
+      "method": "/datasource.bucket.v1.BucketService/Describe",
+      "input_message": "datasource.bucket.v1.DescribeRequest",
+      "output_message": "datasource.bucket.v1.DescribeResponse",
+      "path": "contracts/runnables/bucket/grpc/Describe"
+    },
+    {
+      "name": "registry-connect-get-catalog",
+      "version": "0.0.1",
+      "digest": "30e04813141b6cd161ccde865dda3cb8eb4a31b6dbbc8f34db172b76969db04f",
+      "service": "registry",
+      "endpoint": "connect",
+      "method": "/datasource.registry.v1.RegistryService/GetCatalog",
+      "input_message": "datasource.registry.v1.GetCatalogRequest",
+      "output_message": "datasource.registry.v1.GetCatalogResponse",
+      "path": "contracts/runnables/registry/connect/GetCatalog"
+    },
+    {
+      "name": "registry-grpc-get-catalog",
+      "version": "0.0.1",
+      "digest": "89c34aa2ca93c2de05ecdb97a5e1e3df63bb175d313add06832e253cabf88ad8",
+      "service": "registry",
+      "endpoint": "grpc",
+      "method": "/datasource.registry.v1.RegistryService/GetCatalog",
+      "input_message": "datasource.registry.v1.GetCatalogRequest",
+      "output_message": "datasource.registry.v1.GetCatalogResponse",
+      "path": "contracts/runnables/registry/grpc/GetCatalog"
+    }
+  ]
+}

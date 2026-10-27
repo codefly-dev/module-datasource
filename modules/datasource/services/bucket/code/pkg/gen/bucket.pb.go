@@ -17,6 +17,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	_ "github.com/codefly-dev/core/generated/go/codefly/runnable/v0"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -818,7 +819,7 @@ var File_bucket_proto protoreflect.FileDescriptor
 
 const file_bucket_proto_rawDesc = "" +
 	"\n" +
-	"\fbucket.proto\x12\x14datasource.bucket.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x10\n" +
+	"\fbucket.proto\x12\x14datasource.bucket.v1\x1a\x1cgoogle/api/annotations.proto\x1a!codefly/runnable/v0/options.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x10\n" +
 	"\x0eVersionRequest\"+\n" +
 	"\x0fVersionResponse\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\"\x80\x01\n" +
@@ -872,11 +873,15 @@ const file_bucket_proto_rawDesc = "" +
 	"\aversion\x18\x04 \x01(\tR\aversion\"T\n" +
 	"\x0eFetchItemChunk\x12.\n" +
 	"\x04item\x18\x01 \x01(\v2\x1a.datasource.bucket.v1.ItemR\x04item\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\fR\x04data2\xd3\x03\n" +
+	"\x04data\x18\x02 \x01(\fR\x04data2\xea\x05\n" +
 	"\rBucketService\x12h\n" +
 	"\aVersion\x12$.datasource.bucket.v1.VersionRequest\x1a%.datasource.bucket.v1.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/version\x12l\n" +
-	"\bDescribe\x12%.datasource.bucket.v1.DescribeRequest\x1a&.datasource.bucket.v1.DescribeResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/describe\x12t\n" +
+	"\x12\b/version\x12\x82\x03\n" +
+	"\bDescribe\x12%.datasource.bucket.v1.DescribeRequest\x1a&.datasource.bucket.v1.DescribeResponse\"\xa6\x02\xda\xf3\x18\x90\x02\n" +
+	"\x02\b\x05\x12\x02\b\x14\x18\x03\"\x02\b\x01*\vUNAVAILABLE2\x06bucket:\x1d\n" +
+	"\x15datasource.datasource\x12\x04readB\x1d\n" +
+	"\x15datasource.datasource\x12\x04readP\x80 X\x80\x80\x01`\x01j\xa3\x01\n" +
+	"\x0fbucket_describe\x12\x8d\x01Describe this object-store datasource: the store kinds it can reach, whether a read needs a credential, and whether items arrive as a stream.\x18\x01\x82\xd3\xe4\x93\x02\v\x12\t/describe\x12t\n" +
 	"\tListItems\x12&.datasource.bucket.v1.ListItemsRequest\x1a'.datasource.bucket.v1.ListItemsResponse\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/items:list\x12t\n" +
 	"\tFetchItem\x12&.datasource.bucket.v1.FetchItemRequest\x1a$.datasource.bucket.v1.FetchItemChunk\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/items:fetch0\x01B\x14Z\x12bucket/pkg/gen;genb\x06proto3"
 

@@ -1,0 +1,35 @@
+{
+  "method": "/datasource.registry.v1.RegistryService/GetCatalog",
+  "attempt_timeout": "5s",
+  "total_timeout": "20s",
+  "max_attempts": 3,
+  "backoff": "1s",
+  "retryable_codes": [
+    "UNAVAILABLE"
+  ],
+  "audience": "registry",
+  "invoke_scopes": [
+    {
+      "resource_kind": "datasource.catalog",
+      "actions": [
+        "read"
+      ]
+    }
+  ],
+  "lookup_scopes": [
+    {
+      "resource_kind": "datasource.catalog",
+      "actions": [
+        "read"
+      ]
+    }
+  ],
+  "max_input_bytes": 4096,
+  "max_output_bytes": 65536,
+  "completion": "COMPLETION_CALL",
+  "tool": {
+    "description": "List the datasources this deployment composed, each with the source kinds it reaches, whether a read needs a credential, whether items stream, and the address its own API is reached at. The list is what each datasource announced about itself, so it reflects what is running.",
+    "effect": "EFFECT_READ_ONLY",
+    "name": "datasource_catalog"
+  }
+}

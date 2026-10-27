@@ -20,6 +20,7 @@
     "/describe": {
       "get": {
         "summary": "Describe introduces this datasource to a registry.",
+        "description": "Marked a Runnable operation, and exposed as a tool: having found this\ndatasource in the catalog, a harness asks it what it can do before\noffering it. It observes only this service's own description, carries no\ncredential and touches no tenant state.",
         "operationId": "BucketService_Describe",
         "responses": {
           "200": {

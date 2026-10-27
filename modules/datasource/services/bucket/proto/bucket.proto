@@ -12,6 +12,7 @@ package datasource.bucket.v1;
 option go_package = "bucket/pkg/gen;gen";
 
 import "google/api/annotations.proto";
+import "codefly/runnable/v0/options.proto";
 import "google/protobuf/timestamp.proto";
 
 // VersionRequest asks which build is serving.
@@ -159,9 +160,32 @@ service BucketService {
     }
 
     // Describe introduces this datasource to a registry.
+    //
+    // Marked a Runnable operation, and exposed as a tool: having found this
+    // datasource in the catalog, a harness asks it what it can do before
+    // offering it. It observes only this service's own description, carries no
+    // credential and touches no tenant state.
     rpc Describe(DescribeRequest) returns (DescribeResponse) {
         option (google.api.http) = {
             get: "/describe"
+        };
+        option (codefly.runnable.v0.operation) = {
+            attempt_timeout: {seconds: 5}
+            total_timeout: {seconds: 20}
+            max_attempts: 3
+            backoff: {seconds: 1}
+            retryable_codes: ["UNAVAILABLE"]
+            audience: "bucket"
+            invoke_scopes: [{resource_kind: "datasource.datasource", actions: ["read"]}]
+            lookup_scopes: [{resource_kind: "datasource.datasource", actions: ["read"]}]
+            max_input_bytes: 4096
+            max_output_bytes: 16384
+            completion: COMPLETION_CALL
+            tool: {
+                name: "bucket_describe"
+                description: "Describe this object-store datasource: the store kinds it can reach, whether a read needs a credential, and whether items arrive as a stream."
+                effect: EFFECT_READ_ONLY
+            }
         };
     }
 

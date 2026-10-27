@@ -19,6 +19,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	_ "github.com/codefly-dev/core/generated/go/codefly/runnable/v0"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -394,7 +395,7 @@ var File_registry_proto protoreflect.FileDescriptor
 
 const file_registry_proto_rawDesc = "" +
 	"\n" +
-	"\x0eregistry.proto\x12\x16datasource.registry.v1\x1a\x1cgoogle/api/annotations.proto\"\x10\n" +
+	"\x0eregistry.proto\x12\x16datasource.registry.v1\x1a\x1cgoogle/api/annotations.proto\x1a!codefly/runnable/v0/options.proto\"\x10\n" +
 	"\x0eVersionRequest\"+\n" +
 	"\x0fVersionResponse\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\"\xb1\x01\n" +
@@ -414,13 +415,17 @@ const file_registry_proto_rawDesc = "" +
 	"\x14renew_within_seconds\x18\x01 \x01(\x03R\x12renewWithinSeconds\"\x13\n" +
 	"\x11GetCatalogRequest\"Z\n" +
 	"\x12GetCatalogResponse\x12D\n" +
-	"\vdatasources\x18\x01 \x03(\v2\".datasource.registry.v1.DatasourceR\vdatasources2\xfb\x02\n" +
+	"\vdatasources\x18\x01 \x03(\v2\".datasource.registry.v1.DatasourceR\vdatasources2\x96\x06\n" +
 	"\x0fRegistryService\x12l\n" +
 	"\aVersion\x12&.datasource.registry.v1.VersionRequest\x1a'.datasource.registry.v1.VersionResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
 	"\x12\b/version\x12\x7f\n" +
-	"\bAnnounce\x12'.datasource.registry.v1.AnnounceRequest\x1a(.datasource.registry.v1.AnnounceResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/datasources:announce\x12y\n" +
+	"\bAnnounce\x12'.datasource.registry.v1.AnnounceRequest\x1a(.datasource.registry.v1.AnnounceResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/datasources:announce\x12\x93\x04\n" +
 	"\n" +
-	"GetCatalog\x12).datasource.registry.v1.GetCatalogRequest\x1a*.datasource.registry.v1.GetCatalogResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/datasourcesB\x16Z\x14registry/pkg/gen;genb\x06proto3"
+	"GetCatalog\x12).datasource.registry.v1.GetCatalogRequest\x1a*.datasource.registry.v1.GetCatalogResponse\"\xad\x03\xda\xf3\x18\x94\x03\n" +
+	"\x02\b\x05\x12\x02\b\x14\x18\x03\"\x02\b\x01*\vUNAVAILABLE2\bregistry:\x1a\n" +
+	"\x12datasource.catalog\x12\x04readB\x1a\n" +
+	"\x12datasource.catalog\x12\x04readP\x80 X\x80\x80\x04`\x01j\xab\x02\n" +
+	"\x12datasource_catalog\x12\x92\x02List the datasources this deployment composed, each with the source kinds it reaches, whether a read needs a credential, whether items stream, and the address its own API is reached at. The list is what each datasource announced about itself, so it reflects what is running.\x18\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/datasourcesB\x16Z\x14registry/pkg/gen;genb\x06proto3"
 
 var (
 	file_registry_proto_rawDescOnce sync.Once

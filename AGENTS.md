@@ -82,6 +82,51 @@ That vocabulary is the module's published contract. How a datasource lists,
 diffs, fetches, streams or watches is its own business, and its consumers call it
 directly.
 
+## Endpoints become tools, by marking them
+
+An operation an agent harness may call is marked in the proto with
+`(codefly.runnable.v0.operation)`, and `codefly generate runnables` derives its
+Runnable package and tool definition. Nothing is hand-written: the tool's input
+and output schemas are the operation's own messages, and `codefly generate
+runnable-bindings` installs the authority per environment.
+
+Both defaults are fail-closed and worth knowing before you add one: a method
+with no `tool` is **not** exposed, and an unset `effect` is **not** read-only.
+
+Marked today, because they need no credential and touch no tenant state:
+
+| Tool | Operation | Effect |
+|---|---|---|
+| `datasource_catalog` | `registry` `GetCatalog` | read-only |
+| `bucket_describe` | `bucket` `Describe` | read-only |
+
+Together they are discovery: a harness asks what datasources exist, then asks
+each one what it can do.
+
+**A read cannot be a tool yet, and the reason is not a missing feature here.**
+Every read needs a credential, and a tool's input schema *is* its request
+message — model-facing. A `credential` field there would ask a model to supply a
+secret and give a prompt-injected harness something to exfiltrate. So a read
+tool must name a **source id the host resolves**, with custody injected out of
+band. That needs a host operation which does not exist yet: resolve a source's
+configuration and credential for a caller whose authority covers it. Until it
+does, do not mark a read as a tool, and do not add a source-id API that answers
+`Unimplemented` — a declared tool that fails is worse than one that is absent.
+
+Two further consequences when that lands: `FetchItem` is server-streaming and
+the option is for unary methods, so the tool path needs a unary bounded-bytes
+variant; and per-source `invoke_scopes` must come through
+`required_scope_slots`, because source ids are the host's to spell. That slot
+mechanism is what makes "any datasource the caller has access to" exact — the
+binding carries the intersection of the caller's grants, so no datasource
+decides its own access.
+
+The vendored `codefly/**` protos under each service's `proto/` are import-only
+(see their `VENDORED.md`): they are pinned copies from core, every plugin maps
+them onto core's own Go package, and generation is limited with `--path`.
+Generating them locally registers the same descriptor paths twice and panics at
+init.
+
 ## What this module does not do
 
 **Access control is not here.** Who may read a source, the boundary node it

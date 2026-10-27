@@ -54,6 +54,11 @@ type BucketServiceClient interface {
 	// Version answers which build is serving.
 	Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error)
 	// Describe introduces this datasource to a registry.
+	//
+	// Marked a Runnable operation, and exposed as a tool: having found this
+	// datasource in the catalog, a harness asks it what it can do before
+	// offering it. It observes only this service's own description, carries no
+	// credential and touches no tenant state.
 	Describe(context.Context, *connect.Request[gen.DescribeRequest]) (*connect.Response[gen.DescribeResponse], error)
 	// ListItems answers one page of a source's items.
 	ListItems(context.Context, *connect.Request[gen.ListItemsRequest]) (*connect.Response[gen.ListItemsResponse], error)
@@ -132,6 +137,11 @@ type BucketServiceHandler interface {
 	// Version answers which build is serving.
 	Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error)
 	// Describe introduces this datasource to a registry.
+	//
+	// Marked a Runnable operation, and exposed as a tool: having found this
+	// datasource in the catalog, a harness asks it what it can do before
+	// offering it. It observes only this service's own description, carries no
+	// credential and touches no tenant state.
 	Describe(context.Context, *connect.Request[gen.DescribeRequest]) (*connect.Response[gen.DescribeResponse], error)
 	// ListItems answers one page of a source's items.
 	ListItems(context.Context, *connect.Request[gen.ListItemsRequest]) (*connect.Response[gen.ListItemsResponse], error)

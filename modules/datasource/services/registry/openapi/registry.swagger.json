@@ -20,6 +20,7 @@
     "/datasources": {
       "get": {
         "summary": "GetCatalog answers every datasource currently announced.",
+        "description": "Marked a Runnable operation, and exposed as a tool: this is how an agent\nharness discovers what it can reach at all. It observes only this\nmodule's own catalog, carries no credential and touches no tenant state,\nwhich is why it can be a tool before per-source reads can.",
         "operationId": "RegistryService_GetCatalog",
         "responses": {
           "200": {

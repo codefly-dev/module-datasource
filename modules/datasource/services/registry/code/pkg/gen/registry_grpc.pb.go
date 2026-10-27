@@ -44,6 +44,11 @@ type RegistryServiceClient interface {
 	// Announce publishes a datasource, or renews it.
 	Announce(ctx context.Context, in *AnnounceRequest, opts ...grpc.CallOption) (*AnnounceResponse, error)
 	// GetCatalog answers every datasource currently announced.
+	//
+	// Marked a Runnable operation, and exposed as a tool: this is how an agent
+	// harness discovers what it can reach at all. It observes only this
+	// module's own catalog, carries no credential and touches no tenant state,
+	// which is why it can be a tool before per-source reads can.
 	GetCatalog(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*GetCatalogResponse, error)
 }
 
@@ -96,6 +101,11 @@ type RegistryServiceServer interface {
 	// Announce publishes a datasource, or renews it.
 	Announce(context.Context, *AnnounceRequest) (*AnnounceResponse, error)
 	// GetCatalog answers every datasource currently announced.
+	//
+	// Marked a Runnable operation, and exposed as a tool: this is how an agent
+	// harness discovers what it can reach at all. It observes only this
+	// module's own catalog, carries no credential and touches no tenant state,
+	// which is why it can be a tool before per-source reads can.
 	GetCatalog(context.Context, *GetCatalogRequest) (*GetCatalogResponse, error)
 	mustEmbedUnimplementedRegistryServiceServer()
 }

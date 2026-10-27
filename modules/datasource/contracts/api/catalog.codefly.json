@@ -10,7 +10,7 @@
       "kind": "protobuf",
       "package": "datasource.bucket.v1",
       "path": "contracts/api/bucket/connect/contract.binpb",
-      "digest": "sha256:a378317cf5d91cc40066ecc49e2fb82daa730134dcf85a486462b05d3bddf6fa",
+      "digest": "sha256:249b6d687a70ee17aacd64a44cfe6aabd6e0af3d118545d7ca491dbc56219310",
       "services": [
         {
           "name": "BucketService",
@@ -31,7 +31,7 @@
       "kind": "protobuf",
       "package": "datasource.bucket.v1",
       "path": "contracts/api/bucket/grpc/contract.binpb",
-      "digest": "sha256:a378317cf5d91cc40066ecc49e2fb82daa730134dcf85a486462b05d3bddf6fa",
+      "digest": "sha256:249b6d687a70ee17aacd64a44cfe6aabd6e0af3d118545d7ca491dbc56219310",
       "services": [
         {
           "name": "BucketService",
@@ -52,7 +52,7 @@
       "kind": "protobuf",
       "package": "datasource.registry.v1",
       "path": "contracts/api/registry/connect/contract.binpb",
-      "digest": "sha256:c474fe84a782fab7e75d02fb54d518638407b698d50c27eb38b19edf669e63bd",
+      "digest": "sha256:7c124bfb59a09412610d88639d42612bc9c47409a1051445f3d1c4a1b6c12228",
       "services": [
         {
           "name": "RegistryService",
@@ -72,7 +72,7 @@
       "kind": "protobuf",
       "package": "datasource.registry.v1",
       "path": "contracts/api/registry/grpc/contract.binpb",
-      "digest": "sha256:c474fe84a782fab7e75d02fb54d518638407b698d50c27eb38b19edf669e63bd",
+      "digest": "sha256:7c124bfb59a09412610d88639d42612bc9c47409a1051445f3d1c4a1b6c12228",
       "services": [
         {
           "name": "RegistryService",

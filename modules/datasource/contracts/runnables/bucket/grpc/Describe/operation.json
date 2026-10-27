@@ -1,0 +1,35 @@
+{
+  "method": "/datasource.bucket.v1.BucketService/Describe",
+  "attempt_timeout": "5s",
+  "total_timeout": "20s",
+  "max_attempts": 3,
+  "backoff": "1s",
+  "retryable_codes": [
+    "UNAVAILABLE"
+  ],
+  "audience": "bucket",
+  "invoke_scopes": [
+    {
+      "resource_kind": "datasource.datasource",
+      "actions": [
+        "read"
+      ]
+    }
+  ],
+  "lookup_scopes": [
+    {
+      "resource_kind": "datasource.datasource",
+      "actions": [
+        "read"
+      ]
+    }
+  ],
+  "max_input_bytes": 4096,
+  "max_output_bytes": 16384,
+  "completion": "COMPLETION_CALL",
+  "tool": {
+    "description": "Describe this object-store datasource: the store kinds it can reach, whether a read needs a credential, and whether items arrive as a stream.",
+    "effect": "EFFECT_READ_ONLY",
+    "name": "bucket_describe"
+  }
+}

@@ -1,7 +1,20 @@
 version: v1
 deps:
   - buf.build/googleapis/googleapis
+  # buf/validate/validate.proto, which the vendored codefly/base/v0 protos
+  # import. This module's own proto does not use it.
+  - buf.build/bufbuild/protovalidate
 lint:
   use:
     - DEFAULT
     - COMMENTS
+  # The vendored Codefly option contracts (codefly/VENDORED.md) are not
+  # authored by this module, so its comment rules do not apply to them.
+  ignore:
+    - codefly
+breaking:
+  # `buf breaking` gates this module's own contract. The vendored option protos
+  # are compared by their owner, not here: a re-sync is a copy, not a change
+  # this module makes.
+  ignore:
+    - codefly
