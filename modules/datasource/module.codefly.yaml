@@ -5,3 +5,4 @@ services:
     - name: bucket
     - name: storage
     - name: tenant
+    - name: playground

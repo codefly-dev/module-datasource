@@ -33,10 +33,11 @@ func New(gateway storagev0.ObjectStorageClient) *Datasource {
 	return &Datasource{gateway: gateway}
 }
 
-// Describe introduces this datasource to a registry that knows nothing about
-// it. The registry's catalog is the composed datasources' own answers to this,
-// which is what lets a deployment add one without the registry changing.
-func (d *Datasource) Describe(_ context.Context, _ *gen.DescribeRequest) (*gen.DescribeResponse, error) {
+// Description is what this datasource says about itself. It is a package
+// function because two callers need the same answer — the Describe RPC and the
+// announcement this service makes to the registry — and a datasource that
+// described itself two ways could be in the catalog as something it is not.
+func Description() *gen.DescribeResponse {
 	return &gen.DescribeResponse{
 		Name:  "bucket",
 		Title: "Object store",
@@ -46,7 +47,14 @@ func (d *Datasource) Describe(_ context.Context, _ *gen.DescribeRequest) (*gen.D
 		Kinds:              []string{"s3", "minio", "gcs", "azure"},
 		RequiresCredential: true,
 		Streams:            true,
-	}, nil
+	}
+}
+
+// Describe introduces this datasource to a registry that knows nothing about
+// it. The registry's catalog is the composed datasources' own answers to this,
+// which is what lets a deployment add one without the registry changing.
+func (d *Datasource) Describe(_ context.Context, _ *gen.DescribeRequest) (*gen.DescribeResponse, error) {
+	return Description(), nil
 }
 
 // ListItems answers one page of a source's items.

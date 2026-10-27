@@ -1,0 +1,14 @@
+version: v1
+# The registry's client, generated from its proto. A datasource announces
+# itself through it; nothing is hand-written.
+managed:
+  enabled: false
+plugins:
+  - name: go
+    path: protoc-gen-go
+    out: ./registry
+    opt: paths=source_relative
+  - name: go-grpc
+    path: protoc-gen-go-grpc
+    out: ./registry
+    opt: paths=source_relative

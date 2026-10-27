@@ -9,6 +9,11 @@ endpoints:
     - name: grpc
     - name: rest
 service-dependencies:
+    - name: registry
+      kind: runtime
+      endpoints:
+        - name: grpc
+          api: grpc
     - name: storage
       kind: runtime
       endpoints:

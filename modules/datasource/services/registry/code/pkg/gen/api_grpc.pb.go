@@ -4,6 +4,14 @@
 // - protoc             (unknown)
 // source: api.proto
 
+// The datasource registry: the generic half of the module.
+//
+// It knows no datasource. Its catalog is what the datasources a deployment
+// composed have announced about themselves, so a deployment adds one by
+// composing it — never by changing anything here. A datasource announces
+// itself and renews; the catalog is what is currently announced, which makes
+// it what is actually running rather than what someone once wrote down.
+
 package gen
 
 import (
@@ -20,14 +28,23 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RegistryService_Version_FullMethodName = "/api.RegistryService/Version"
+	RegistryService_Version_FullMethodName    = "/api.RegistryService/Version"
+	RegistryService_Announce_FullMethodName   = "/api.RegistryService/Announce"
+	RegistryService_GetCatalog_FullMethodName = "/api.RegistryService/GetCatalog"
 )
 
 // RegistryServiceClient is the client API for RegistryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// RegistryService is the catalog of a deployment's datasources.
 type RegistryServiceClient interface {
+	// Version answers which build is serving.
 	Version(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionResponse, error)
+	// Announce publishes a datasource, or renews it.
+	Announce(ctx context.Context, in *AnnounceRequest, opts ...grpc.CallOption) (*AnnounceResponse, error)
+	// GetCatalog answers every datasource currently announced.
+	GetCatalog(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*GetCatalogResponse, error)
 }
 
 type registryServiceClient struct {
@@ -48,11 +65,38 @@ func (c *registryServiceClient) Version(ctx context.Context, in *VersionRequest,
 	return out, nil
 }
 
+func (c *registryServiceClient) Announce(ctx context.Context, in *AnnounceRequest, opts ...grpc.CallOption) (*AnnounceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AnnounceResponse)
+	err := c.cc.Invoke(ctx, RegistryService_Announce_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *registryServiceClient) GetCatalog(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*GetCatalogResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCatalogResponse)
+	err := c.cc.Invoke(ctx, RegistryService_GetCatalog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RegistryServiceServer is the server API for RegistryService service.
 // All implementations must embed UnimplementedRegistryServiceServer
 // for forward compatibility.
+//
+// RegistryService is the catalog of a deployment's datasources.
 type RegistryServiceServer interface {
+	// Version answers which build is serving.
 	Version(context.Context, *VersionRequest) (*VersionResponse, error)
+	// Announce publishes a datasource, or renews it.
+	Announce(context.Context, *AnnounceRequest) (*AnnounceResponse, error)
+	// GetCatalog answers every datasource currently announced.
+	GetCatalog(context.Context, *GetCatalogRequest) (*GetCatalogResponse, error)
 	mustEmbedUnimplementedRegistryServiceServer()
 }
 
@@ -65,6 +109,12 @@ type UnimplementedRegistryServiceServer struct{}
 
 func (UnimplementedRegistryServiceServer) Version(context.Context, *VersionRequest) (*VersionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Version not implemented")
+}
+func (UnimplementedRegistryServiceServer) Announce(context.Context, *AnnounceRequest) (*AnnounceResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Announce not implemented")
+}
+func (UnimplementedRegistryServiceServer) GetCatalog(context.Context, *GetCatalogRequest) (*GetCatalogResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCatalog not implemented")
 }
 func (UnimplementedRegistryServiceServer) mustEmbedUnimplementedRegistryServiceServer() {}
 func (UnimplementedRegistryServiceServer) testEmbeddedByValue()                         {}
@@ -105,6 +155,42 @@ func _RegistryService_Version_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RegistryService_Announce_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AnnounceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RegistryServiceServer).Announce(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RegistryService_Announce_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RegistryServiceServer).Announce(ctx, req.(*AnnounceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RegistryService_GetCatalog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCatalogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RegistryServiceServer).GetCatalog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RegistryService_GetCatalog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RegistryServiceServer).GetCatalog(ctx, req.(*GetCatalogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RegistryService_ServiceDesc is the grpc.ServiceDesc for RegistryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -115,6 +201,14 @@ var RegistryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Version",
 			Handler:    _RegistryService_Version_Handler,
+		},
+		{
+			MethodName: "Announce",
+			Handler:    _RegistryService_Announce_Handler,
+		},
+		{
+			MethodName: "GetCatalog",
+			Handler:    _RegistryService_GetCatalog_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

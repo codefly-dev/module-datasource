@@ -21,6 +21,10 @@ It is not a datasource. It is where datasources live.
   which owns the backends (S3, GCS, Azure Blob, MinIO), the signing, the egress
   guard and the size caps.
 - `modules/datasource/services/storage` — that gateway, composed.
+- `modules/datasource/services/playground` — where a person exercises the
+  module. It plays the host's part: it writes an object into the tenant store,
+  then reads it back through `bucket` carrying the store's credential as a call
+  argument, and reports every step. `POST /prove`.
 - `modules/datasource/services/tenant` — a second object-storage service that
   stands in for a tenant's own bucket, so a bound read has a real store to name
   on a local run. It declares the agent's `minio` endpoint, which offers its
@@ -45,13 +49,25 @@ service declaration, its own API and its own tests. It does **not** mean:
 - adding a case to an enum of providers;
 - widening a shared interface so the new one fits.
 
-The registry resolves datasources from **what the deployment composed** — their
-declared endpoints — not from anything written down in its own source. If you
-find yourself editing the registry to make a new datasource work, the design has
-been broken and the fix is in the registry's resolution, not in a new entry.
+The registry learns its datasources from **what the deployment composed**, and
+it learns it by being told: a datasource announces itself — its own `Describe`
+answer plus the address its API is reached at — and renews. The catalog is
+whatever is currently announced, so it is what is actually running rather than
+what someone once wrote down, and a datasource that stops serving leaves it by
+itself.
+
+The dependency edge therefore points from the datasource to the registry, never
+back. That is what holds the rule: the registry depends on no datasource, so
+composing one cannot require a change in it. If you find yourself editing the
+registry to make a new datasource work, the design has been broken.
 
 The test of this rule is mechanical: adding a datasource must leave
 `services/registry/` untouched in the diff.
+
+(The registry cannot discover datasources on its own today even in principle:
+`sdk-go` publishes no API for enumerating the endpoints a composition delivered
+to a process. Announcement needs none, which is part of why it is the shape
+chosen — but if that API arrives, the two can be reconciled.)
 
 ## A datasource's API is its own
 

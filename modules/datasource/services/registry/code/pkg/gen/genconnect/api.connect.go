@@ -2,6 +2,13 @@
 //
 // Source: api.proto
 
+// The datasource registry: the generic half of the module.
+//
+// It knows no datasource. Its catalog is what the datasources a deployment
+// composed have announced about themselves, so a deployment adds one by
+// composing it — never by changing anything here. A datasource announces
+// itself and renews; the catalog is what is currently announced, which makes
+// it what is actually running rather than what someone once wrote down.
 package genconnect
 
 import (
@@ -36,11 +43,22 @@ const (
 const (
 	// RegistryServiceVersionProcedure is the fully-qualified name of the RegistryService's Version RPC.
 	RegistryServiceVersionProcedure = "/api.RegistryService/Version"
+	// RegistryServiceAnnounceProcedure is the fully-qualified name of the RegistryService's Announce
+	// RPC.
+	RegistryServiceAnnounceProcedure = "/api.RegistryService/Announce"
+	// RegistryServiceGetCatalogProcedure is the fully-qualified name of the RegistryService's
+	// GetCatalog RPC.
+	RegistryServiceGetCatalogProcedure = "/api.RegistryService/GetCatalog"
 )
 
 // RegistryServiceClient is a client for the api.RegistryService service.
 type RegistryServiceClient interface {
+	// Version answers which build is serving.
 	Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error)
+	// Announce publishes a datasource, or renews it.
+	Announce(context.Context, *connect.Request[gen.AnnounceRequest]) (*connect.Response[gen.AnnounceResponse], error)
+	// GetCatalog answers every datasource currently announced.
+	GetCatalog(context.Context, *connect.Request[gen.GetCatalogRequest]) (*connect.Response[gen.GetCatalogResponse], error)
 }
 
 // NewRegistryServiceClient constructs a client for the api.RegistryService service. By default, it
@@ -60,12 +78,26 @@ func NewRegistryServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(registryServiceMethods.ByName("Version")),
 			connect.WithClientOptions(opts...),
 		),
+		announce: connect.NewClient[gen.AnnounceRequest, gen.AnnounceResponse](
+			httpClient,
+			baseURL+RegistryServiceAnnounceProcedure,
+			connect.WithSchema(registryServiceMethods.ByName("Announce")),
+			connect.WithClientOptions(opts...),
+		),
+		getCatalog: connect.NewClient[gen.GetCatalogRequest, gen.GetCatalogResponse](
+			httpClient,
+			baseURL+RegistryServiceGetCatalogProcedure,
+			connect.WithSchema(registryServiceMethods.ByName("GetCatalog")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // registryServiceClient implements RegistryServiceClient.
 type registryServiceClient struct {
-	version *connect.Client[gen.VersionRequest, gen.VersionResponse]
+	version    *connect.Client[gen.VersionRequest, gen.VersionResponse]
+	announce   *connect.Client[gen.AnnounceRequest, gen.AnnounceResponse]
+	getCatalog *connect.Client[gen.GetCatalogRequest, gen.GetCatalogResponse]
 }
 
 // Version calls api.RegistryService.Version.
@@ -73,9 +105,24 @@ func (c *registryServiceClient) Version(ctx context.Context, req *connect.Reques
 	return c.version.CallUnary(ctx, req)
 }
 
+// Announce calls api.RegistryService.Announce.
+func (c *registryServiceClient) Announce(ctx context.Context, req *connect.Request[gen.AnnounceRequest]) (*connect.Response[gen.AnnounceResponse], error) {
+	return c.announce.CallUnary(ctx, req)
+}
+
+// GetCatalog calls api.RegistryService.GetCatalog.
+func (c *registryServiceClient) GetCatalog(ctx context.Context, req *connect.Request[gen.GetCatalogRequest]) (*connect.Response[gen.GetCatalogResponse], error) {
+	return c.getCatalog.CallUnary(ctx, req)
+}
+
 // RegistryServiceHandler is an implementation of the api.RegistryService service.
 type RegistryServiceHandler interface {
+	// Version answers which build is serving.
 	Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error)
+	// Announce publishes a datasource, or renews it.
+	Announce(context.Context, *connect.Request[gen.AnnounceRequest]) (*connect.Response[gen.AnnounceResponse], error)
+	// GetCatalog answers every datasource currently announced.
+	GetCatalog(context.Context, *connect.Request[gen.GetCatalogRequest]) (*connect.Response[gen.GetCatalogResponse], error)
 }
 
 // NewRegistryServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -91,10 +138,26 @@ func NewRegistryServiceHandler(svc RegistryServiceHandler, opts ...connect.Handl
 		connect.WithSchema(registryServiceMethods.ByName("Version")),
 		connect.WithHandlerOptions(opts...),
 	)
+	registryServiceAnnounceHandler := connect.NewUnaryHandler(
+		RegistryServiceAnnounceProcedure,
+		svc.Announce,
+		connect.WithSchema(registryServiceMethods.ByName("Announce")),
+		connect.WithHandlerOptions(opts...),
+	)
+	registryServiceGetCatalogHandler := connect.NewUnaryHandler(
+		RegistryServiceGetCatalogProcedure,
+		svc.GetCatalog,
+		connect.WithSchema(registryServiceMethods.ByName("GetCatalog")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/api.RegistryService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case RegistryServiceVersionProcedure:
 			registryServiceVersionHandler.ServeHTTP(w, r)
+		case RegistryServiceAnnounceProcedure:
+			registryServiceAnnounceHandler.ServeHTTP(w, r)
+		case RegistryServiceGetCatalogProcedure:
+			registryServiceGetCatalogHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -106,4 +169,12 @@ type UnimplementedRegistryServiceHandler struct{}
 
 func (UnimplementedRegistryServiceHandler) Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.RegistryService.Version is not implemented"))
+}
+
+func (UnimplementedRegistryServiceHandler) Announce(context.Context, *connect.Request[gen.AnnounceRequest]) (*connect.Response[gen.AnnounceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.RegistryService.Announce is not implemented"))
+}
+
+func (UnimplementedRegistryServiceHandler) GetCatalog(context.Context, *connect.Request[gen.GetCatalogRequest]) (*connect.Response[gen.GetCatalogResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.RegistryService.GetCatalog is not implemented"))
 }

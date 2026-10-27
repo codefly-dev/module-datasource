@@ -1,0 +1,39 @@
+name: playground
+version: 0.0.0
+agent:
+    kind: codefly:service
+    name: go-grpc
+    version: 0.1.69
+    publisher: codefly.dev
+endpoints:
+    - name: grpc
+    - name: rest
+service-dependencies:
+    - name: bucket
+      kind: runtime
+      endpoints:
+        - name: grpc
+          api: grpc
+    - name: tenant
+      kind: runtime
+      endpoints:
+        - name: grpc
+          api: grpc
+spec:
+    Settings:
+        GoAgentSettings:
+            debug-symbols: false
+            hot-reload: true
+            race-condition-detection-run: false
+            source-dir: ""
+            with-cgo: false
+            with-workspace: false
+    connect-endpoint: false
+    cors: {}
+    docker-image: ""
+    health:
+        mode: grpc
+    protocol-output-dirs: []
+    protocol-source-dir: ""
+    rest-endpoint: true
+    runtime-assets: []

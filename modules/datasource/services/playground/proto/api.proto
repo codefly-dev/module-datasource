@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+// The datasource playground: where a person exercises the module.
+//
+// It plays the host's part. In a deployment the host holds a tenant's
+// credential and hands one over for a single call; here the playground reads
+// the tenant store's own credential from the composition and passes it the
+// same way, so what runs is the real read path and not a stub of it.
+package api;
+
+// Keep the Go import path stable while the protobuf package remains free to
+// evolve into a versioned wire namespace (for example datasource.playground.v1).
+option go_package = "playground/pkg/gen;gen";
+
+import "google/api/annotations.proto";
+
+// VersionRequest asks which build is serving.
+message VersionRequest {
+}
+
+// VersionResponse carries the serving build's version.
+message VersionResponse {
+    // version is the service version codefly stamped into this build.
+    string version = 1;
+}
+
+// ProveRequest runs the bucket datasource against the composed tenant store.
+message ProveRequest {
+    // key is the object to write and read back. Empty picks a generated one,
+    // so a person can run the proof repeatedly without choosing a name.
+    string key = 1;
+    // content is what to write. Empty writes a generated line.
+    string content = 2;
+    // bucket is the tenant store's bucket to read. It is part of a source's
+    // configuration — in a deployment the person who connects the source names
+    // it — and the object-storage agent publishes no bucket name to its
+    // dependents, so the proof is told rather than guessing. Empty uses the
+    // agent's own default for a store with none configured.
+    string bucket = 3;
+}
+
+// ProveResponse is what happened, step by step, in the order it happened. A
+// step that failed carries its reason and is the last one.
+message ProveResponse {
+    // steps are what the proof did.
+    repeated ProveStep steps = 1;
+    // proven is true when every step succeeded.
+    bool proven = 2;
+}
+
+// ProveStep is one step of the proof.
+message ProveStep {
+    // name says which step this is.
+    string name = 1;
+    // detail is what the step observed, in a person's terms.
+    string detail = 2;
+    // failure is empty when the step succeeded.
+    string failure = 3;
+}
+
+// PlaygroundService exercises the datasource module.
+service PlaygroundService {
+    // Version answers which build is serving.
+    rpc Version(VersionRequest) returns (VersionResponse) {
+        option (google.api.http) = {
+            get: "/version"
+        };
+    }
+
+    // Prove writes an object into the tenant store and reads it back through
+    // the bucket datasource, carrying the store's credential per call.
+    rpc Prove(ProveRequest) returns (ProveResponse) {
+        option (google.api.http) = {
+            post: "/prove"
+            body: "*"
+        };
+    }
+}
