@@ -2,6 +2,11 @@
 //
 // Source: api.proto
 
+// The bucket datasource: an object store read as a datasource. Its API is its
+// own — the module publishes no single interface every datasource implements,
+// because a store that streams and a store that pages cannot share one shape.
+// What it shares with every other datasource is the vocabulary below: how a
+// source is named, how an item is described, and how a credential arrives.
 package genconnect
 
 import (
@@ -36,11 +41,24 @@ const (
 const (
 	// BucketServiceVersionProcedure is the fully-qualified name of the BucketService's Version RPC.
 	BucketServiceVersionProcedure = "/api.BucketService/Version"
+	// BucketServiceDescribeProcedure is the fully-qualified name of the BucketService's Describe RPC.
+	BucketServiceDescribeProcedure = "/api.BucketService/Describe"
+	// BucketServiceListItemsProcedure is the fully-qualified name of the BucketService's ListItems RPC.
+	BucketServiceListItemsProcedure = "/api.BucketService/ListItems"
+	// BucketServiceFetchItemProcedure is the fully-qualified name of the BucketService's FetchItem RPC.
+	BucketServiceFetchItemProcedure = "/api.BucketService/FetchItem"
 )
 
 // BucketServiceClient is a client for the api.BucketService service.
 type BucketServiceClient interface {
+	// Version answers which build is serving.
 	Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error)
+	// Describe introduces this datasource to a registry.
+	Describe(context.Context, *connect.Request[gen.DescribeRequest]) (*connect.Response[gen.DescribeResponse], error)
+	// ListItems answers one page of a source's items.
+	ListItems(context.Context, *connect.Request[gen.ListItemsRequest]) (*connect.Response[gen.ListItemsResponse], error)
+	// FetchItem streams one item's bytes.
+	FetchItem(context.Context, *connect.Request[gen.FetchItemRequest]) (*connect.ServerStreamForClient[gen.FetchItemChunk], error)
 }
 
 // NewBucketServiceClient constructs a client for the api.BucketService service. By default, it uses
@@ -60,12 +78,33 @@ func NewBucketServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(bucketServiceMethods.ByName("Version")),
 			connect.WithClientOptions(opts...),
 		),
+		describe: connect.NewClient[gen.DescribeRequest, gen.DescribeResponse](
+			httpClient,
+			baseURL+BucketServiceDescribeProcedure,
+			connect.WithSchema(bucketServiceMethods.ByName("Describe")),
+			connect.WithClientOptions(opts...),
+		),
+		listItems: connect.NewClient[gen.ListItemsRequest, gen.ListItemsResponse](
+			httpClient,
+			baseURL+BucketServiceListItemsProcedure,
+			connect.WithSchema(bucketServiceMethods.ByName("ListItems")),
+			connect.WithClientOptions(opts...),
+		),
+		fetchItem: connect.NewClient[gen.FetchItemRequest, gen.FetchItemChunk](
+			httpClient,
+			baseURL+BucketServiceFetchItemProcedure,
+			connect.WithSchema(bucketServiceMethods.ByName("FetchItem")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // bucketServiceClient implements BucketServiceClient.
 type bucketServiceClient struct {
-	version *connect.Client[gen.VersionRequest, gen.VersionResponse]
+	version   *connect.Client[gen.VersionRequest, gen.VersionResponse]
+	describe  *connect.Client[gen.DescribeRequest, gen.DescribeResponse]
+	listItems *connect.Client[gen.ListItemsRequest, gen.ListItemsResponse]
+	fetchItem *connect.Client[gen.FetchItemRequest, gen.FetchItemChunk]
 }
 
 // Version calls api.BucketService.Version.
@@ -73,9 +112,31 @@ func (c *bucketServiceClient) Version(ctx context.Context, req *connect.Request[
 	return c.version.CallUnary(ctx, req)
 }
 
+// Describe calls api.BucketService.Describe.
+func (c *bucketServiceClient) Describe(ctx context.Context, req *connect.Request[gen.DescribeRequest]) (*connect.Response[gen.DescribeResponse], error) {
+	return c.describe.CallUnary(ctx, req)
+}
+
+// ListItems calls api.BucketService.ListItems.
+func (c *bucketServiceClient) ListItems(ctx context.Context, req *connect.Request[gen.ListItemsRequest]) (*connect.Response[gen.ListItemsResponse], error) {
+	return c.listItems.CallUnary(ctx, req)
+}
+
+// FetchItem calls api.BucketService.FetchItem.
+func (c *bucketServiceClient) FetchItem(ctx context.Context, req *connect.Request[gen.FetchItemRequest]) (*connect.ServerStreamForClient[gen.FetchItemChunk], error) {
+	return c.fetchItem.CallServerStream(ctx, req)
+}
+
 // BucketServiceHandler is an implementation of the api.BucketService service.
 type BucketServiceHandler interface {
+	// Version answers which build is serving.
 	Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error)
+	// Describe introduces this datasource to a registry.
+	Describe(context.Context, *connect.Request[gen.DescribeRequest]) (*connect.Response[gen.DescribeResponse], error)
+	// ListItems answers one page of a source's items.
+	ListItems(context.Context, *connect.Request[gen.ListItemsRequest]) (*connect.Response[gen.ListItemsResponse], error)
+	// FetchItem streams one item's bytes.
+	FetchItem(context.Context, *connect.Request[gen.FetchItemRequest], *connect.ServerStream[gen.FetchItemChunk]) error
 }
 
 // NewBucketServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -91,10 +152,34 @@ func NewBucketServiceHandler(svc BucketServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(bucketServiceMethods.ByName("Version")),
 		connect.WithHandlerOptions(opts...),
 	)
+	bucketServiceDescribeHandler := connect.NewUnaryHandler(
+		BucketServiceDescribeProcedure,
+		svc.Describe,
+		connect.WithSchema(bucketServiceMethods.ByName("Describe")),
+		connect.WithHandlerOptions(opts...),
+	)
+	bucketServiceListItemsHandler := connect.NewUnaryHandler(
+		BucketServiceListItemsProcedure,
+		svc.ListItems,
+		connect.WithSchema(bucketServiceMethods.ByName("ListItems")),
+		connect.WithHandlerOptions(opts...),
+	)
+	bucketServiceFetchItemHandler := connect.NewServerStreamHandler(
+		BucketServiceFetchItemProcedure,
+		svc.FetchItem,
+		connect.WithSchema(bucketServiceMethods.ByName("FetchItem")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/api.BucketService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case BucketServiceVersionProcedure:
 			bucketServiceVersionHandler.ServeHTTP(w, r)
+		case BucketServiceDescribeProcedure:
+			bucketServiceDescribeHandler.ServeHTTP(w, r)
+		case BucketServiceListItemsProcedure:
+			bucketServiceListItemsHandler.ServeHTTP(w, r)
+		case BucketServiceFetchItemProcedure:
+			bucketServiceFetchItemHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -106,4 +191,16 @@ type UnimplementedBucketServiceHandler struct{}
 
 func (UnimplementedBucketServiceHandler) Version(context.Context, *connect.Request[gen.VersionRequest]) (*connect.Response[gen.VersionResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.BucketService.Version is not implemented"))
+}
+
+func (UnimplementedBucketServiceHandler) Describe(context.Context, *connect.Request[gen.DescribeRequest]) (*connect.Response[gen.DescribeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.BucketService.Describe is not implemented"))
+}
+
+func (UnimplementedBucketServiceHandler) ListItems(context.Context, *connect.Request[gen.ListItemsRequest]) (*connect.Response[gen.ListItemsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.BucketService.ListItems is not implemented"))
+}
+
+func (UnimplementedBucketServiceHandler) FetchItem(context.Context, *connect.Request[gen.FetchItemRequest], *connect.ServerStream[gen.FetchItemChunk]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("api.BucketService.FetchItem is not implemented"))
 }

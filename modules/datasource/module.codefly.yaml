@@ -3,3 +3,5 @@ name: datasource
 services:
     - name: registry
     - name: bucket
+    - name: storage
+    - name: tenant

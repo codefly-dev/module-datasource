@@ -1,0 +1,15 @@
+version: v1
+# The object-storage contract is the agent's own, pinned by commit in PINNED.
+# Only the bindings are generated here: the bucket datasource dials the gateway
+# through them, so no client is hand-written.
+managed:
+  enabled: false
+plugins:
+  - name: go
+    path: protoc-gen-go
+    out: ../../services/bucket/code/pkg/gen/storage
+    opt: paths=source_relative
+  - name: go-grpc
+    path: protoc-gen-go-grpc
+    out: ../../services/bucket/code/pkg/gen/storage
+    opt: paths=source_relative

@@ -20,6 +20,18 @@ It is not a datasource. It is where datasources live.
   read through the composed [object-storage service](https://github.com/codefly-dev/service-object-storage),
   which owns the backends (S3, GCS, Azure Blob, MinIO), the signing, the egress
   guard and the size caps.
+- `modules/datasource/services/storage` — that gateway, composed.
+- `modules/datasource/services/tenant` — a second object-storage service that
+  stands in for a tenant's own bucket, so a bound read has a real store to name
+  on a local run. It declares the agent's `minio` endpoint, which offers its
+  local MinIO's S3 API to the services that depend on it. The agent refuses to
+  **deploy** a service declaring it, so this one is a local proof by
+  construction and is the first thing to leave the deployable composition.
+
+`modules/datasource/contracts/object-storage` is the gateway's own contract,
+pinned by commit (see its `PINNED`). It is input to `codefly generate proto`,
+which writes the bindings the bucket service dials through; nothing in it is
+edited here.
 
 ## The one rule this repo exists to hold
 
@@ -66,6 +78,13 @@ A datasource receives a credential **per call** and never persists it, never
 returns it, and never logs it. The host hands it over for one call and the
 service forgets it. Where a datasource is backed by a service that holds
 backends, that service takes a per-call binding and stores nothing either.
+
+In a deployment the credential comes from the host: a person enters it there,
+it is encrypted at receipt and only its envelope reference is stored, and the
+host decrypts one for one call. On a local run the tenant store's own
+configuration stands in for that hand-over. Either way this module holds no
+custody, and `bucket`'s tests assert the credential reaches the gateway and
+nothing else.
 
 ## Working here
 

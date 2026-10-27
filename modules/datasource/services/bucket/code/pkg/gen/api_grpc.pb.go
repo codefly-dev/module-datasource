@@ -4,6 +4,12 @@
 // - protoc             (unknown)
 // source: api.proto
 
+// The bucket datasource: an object store read as a datasource. Its API is its
+// own — the module publishes no single interface every datasource implements,
+// because a store that streams and a store that pages cannot share one shape.
+// What it shares with every other datasource is the vocabulary below: how a
+// source is named, how an item is described, and how a credential arrives.
+
 package gen
 
 import (
@@ -20,14 +26,26 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	BucketService_Version_FullMethodName = "/api.BucketService/Version"
+	BucketService_Version_FullMethodName   = "/api.BucketService/Version"
+	BucketService_Describe_FullMethodName  = "/api.BucketService/Describe"
+	BucketService_ListItems_FullMethodName = "/api.BucketService/ListItems"
+	BucketService_FetchItem_FullMethodName = "/api.BucketService/FetchItem"
 )
 
 // BucketServiceClient is the client API for BucketService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// BucketService reads object stores as datasources.
 type BucketServiceClient interface {
+	// Version answers which build is serving.
 	Version(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionResponse, error)
+	// Describe introduces this datasource to a registry.
+	Describe(ctx context.Context, in *DescribeRequest, opts ...grpc.CallOption) (*DescribeResponse, error)
+	// ListItems answers one page of a source's items.
+	ListItems(ctx context.Context, in *ListItemsRequest, opts ...grpc.CallOption) (*ListItemsResponse, error)
+	// FetchItem streams one item's bytes.
+	FetchItem(ctx context.Context, in *FetchItemRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[FetchItemChunk], error)
 }
 
 type bucketServiceClient struct {
@@ -48,11 +66,59 @@ func (c *bucketServiceClient) Version(ctx context.Context, in *VersionRequest, o
 	return out, nil
 }
 
+func (c *bucketServiceClient) Describe(ctx context.Context, in *DescribeRequest, opts ...grpc.CallOption) (*DescribeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeResponse)
+	err := c.cc.Invoke(ctx, BucketService_Describe_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bucketServiceClient) ListItems(ctx context.Context, in *ListItemsRequest, opts ...grpc.CallOption) (*ListItemsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListItemsResponse)
+	err := c.cc.Invoke(ctx, BucketService_ListItems_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bucketServiceClient) FetchItem(ctx context.Context, in *FetchItemRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[FetchItemChunk], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &BucketService_ServiceDesc.Streams[0], BucketService_FetchItem_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[FetchItemRequest, FetchItemChunk]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type BucketService_FetchItemClient = grpc.ServerStreamingClient[FetchItemChunk]
+
 // BucketServiceServer is the server API for BucketService service.
 // All implementations must embed UnimplementedBucketServiceServer
 // for forward compatibility.
+//
+// BucketService reads object stores as datasources.
 type BucketServiceServer interface {
+	// Version answers which build is serving.
 	Version(context.Context, *VersionRequest) (*VersionResponse, error)
+	// Describe introduces this datasource to a registry.
+	Describe(context.Context, *DescribeRequest) (*DescribeResponse, error)
+	// ListItems answers one page of a source's items.
+	ListItems(context.Context, *ListItemsRequest) (*ListItemsResponse, error)
+	// FetchItem streams one item's bytes.
+	FetchItem(*FetchItemRequest, grpc.ServerStreamingServer[FetchItemChunk]) error
 	mustEmbedUnimplementedBucketServiceServer()
 }
 
@@ -65,6 +131,15 @@ type UnimplementedBucketServiceServer struct{}
 
 func (UnimplementedBucketServiceServer) Version(context.Context, *VersionRequest) (*VersionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Version not implemented")
+}
+func (UnimplementedBucketServiceServer) Describe(context.Context, *DescribeRequest) (*DescribeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Describe not implemented")
+}
+func (UnimplementedBucketServiceServer) ListItems(context.Context, *ListItemsRequest) (*ListItemsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListItems not implemented")
+}
+func (UnimplementedBucketServiceServer) FetchItem(*FetchItemRequest, grpc.ServerStreamingServer[FetchItemChunk]) error {
+	return status.Error(codes.Unimplemented, "method FetchItem not implemented")
 }
 func (UnimplementedBucketServiceServer) mustEmbedUnimplementedBucketServiceServer() {}
 func (UnimplementedBucketServiceServer) testEmbeddedByValue()                       {}
@@ -105,6 +180,53 @@ func _BucketService_Version_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BucketService_Describe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BucketServiceServer).Describe(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BucketService_Describe_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BucketServiceServer).Describe(ctx, req.(*DescribeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BucketService_ListItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListItemsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BucketServiceServer).ListItems(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BucketService_ListItems_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BucketServiceServer).ListItems(ctx, req.(*ListItemsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BucketService_FetchItem_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(FetchItemRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(BucketServiceServer).FetchItem(m, &grpc.GenericServerStream[FetchItemRequest, FetchItemChunk]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type BucketService_FetchItemServer = grpc.ServerStreamingServer[FetchItemChunk]
+
 // BucketService_ServiceDesc is the grpc.ServiceDesc for BucketService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -116,7 +238,21 @@ var BucketService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "Version",
 			Handler:    _BucketService_Version_Handler,
 		},
+		{
+			MethodName: "Describe",
+			Handler:    _BucketService_Describe_Handler,
+		},
+		{
+			MethodName: "ListItems",
+			Handler:    _BucketService_ListItems_Handler,
+		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "FetchItem",
+			Handler:       _BucketService_FetchItem_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "api.proto",
 }

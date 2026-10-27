@@ -1,0 +1,22 @@
+name: storage
+version: 0.0.0
+agent:
+    kind: codefly:service
+    name: object-storage
+    version: 0.0.19
+    publisher: codefly.dev
+endpoints:
+    - name: grpc
+service-dependencies:
+    - name: tenant
+      kind: runtime
+      endpoints:
+        - name: grpc
+          api: grpc
+        - name: minio
+          api: tcp
+spec:
+    backend: ""
+    bucket: ""
+    prefix: ""
+    region: ""

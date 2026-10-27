@@ -1,0 +1,12 @@
+codefly-dev/service-object-storage
+705b5218fe8ec5ddf8c0edab2f190705a77d5458
+agent object-storage 0.0.19
+
+This is the agent's published contract, pinned by commit. It is input to
+`codefly generate proto`, never edited here: to move the pin, change the SHA
+above, re-extract and regenerate.
+
+The agent exports no API contract catalog of its own today, so
+`codefly generate client --from datasource/storage` cannot resolve it
+("service storage has no proto/buf.yaml"). That is the gap this pin stands in
+for; when the agent publishes its catalog, this directory goes away.

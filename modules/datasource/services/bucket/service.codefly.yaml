@@ -8,6 +8,12 @@ agent:
 endpoints:
     - name: grpc
     - name: rest
+service-dependencies:
+    - name: storage
+      kind: runtime
+      endpoints:
+        - name: grpc
+          api: grpc
 spec:
     Settings:
         GoAgentSettings:
