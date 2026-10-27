@@ -1,0 +1,4 @@
+name: datasource
+layout: modules
+modules:
+    - name: datasource

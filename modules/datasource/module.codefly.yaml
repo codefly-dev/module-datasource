@@ -1,0 +1,5 @@
+kind: module
+name: datasource
+services:
+    - name: registry
+    - name: bucket
