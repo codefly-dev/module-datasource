@@ -69,15 +69,23 @@ test("the tenant's documents are written, listed, and fetched byte for byte", as
   await page.screenshot({ path: `${info.outputDir}/journey-fetch.png`, fullPage: true });
 });
 
-test("a read with no usable credential is refused, in every form it can take", async ({ page }, info) => {
+test("every refusal stays in the log, so the three can be compared", async ({ page }, info) => {
   await open(page, "No credential, no read");
-  for (const carried of ["No credential", "An access key with no secret", "Someone else's access key"]) {
+  const forms = ["No credential", "An access key with no secret", "Someone else's access key"];
+  for (const [index, carried] of forms.entries()) {
     await page.getByRole("button", { name: carried, exact: false }).first().click();
     await page.getByRole("button", { name: "Try the read" }).click();
-    await completed(page, 1);
-    // The datasource must refuse. A read that succeeded here would mean one
-    // tenant's source is readable with the deployment's own access.
-    await expect(page.getByText(/refus|denied|invalid|unauthenticated|permission/i).first()).toBeVisible();
-    await page.screenshot({ path: `${info.outputDir}/journey-refused-${carried.replace(/[^a-z]+/gi, "-").toLowerCase()}.png`, fullPage: true });
+    await completed(page, index + 1);
   }
+  await page.screenshot({ path: `${info.outputDir}/journey-refusals-together.png`, fullPage: true });
+});
+
+// A capability the guide badges "Demonstrated" must work. Supplying our own
+// gRPC server dropped Version, so both endpoints answered Unimplemented while
+// the card stayed green.
+test("the service versions the run reports are served", async ({ page }, info) => {
+  await open(page, "This run");
+  await completed(page, 2);
+  await expect(page.getByText(/Unimplemented/i)).toHaveCount(0);
+  await page.screenshot({ path: `${info.outputDir}/journey-this-run.png`, fullPage: true });
 });

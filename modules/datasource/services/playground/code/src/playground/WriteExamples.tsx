@@ -1,6 +1,6 @@
 import { Badge, Button, Card, Field, Stack, Textarea } from "@codefly-dev/ui/layout";
 import { useState } from "react";
-import { CallStep, useCall } from "./call";
+import { CallLog, useCall } from "./call";
 import { host } from "./clients";
 import { EXAMPLES, type Written } from "./examples";
 
@@ -51,7 +51,7 @@ export function WriteExamples({ written, onWritten }: { written: Written; onWrit
             </Badge>
           )}
         </Stack>
-        <CallStep title="Write into the tenant store" operation="ObjectStorage.Put (tenant gateway, server-side)" call={write.call} />
+        <CallLog title="Write into the tenant store" operation="ObjectStorage.Put (tenant gateway, server-side)" calls={write.calls} />
       </Stack>
     </Card>
   );

@@ -2,7 +2,7 @@ import type { Datasource } from "@codefly-dev/datasource-registry-client";
 import { Badge, Banner, Button, Card, Stack, Table, TableBody, TableCell, TableEmptyState, TableHead, TableHeader, TableRow } from "@codefly-dev/ui/layout";
 import { ScenarioSteps } from "@codefly-dev/ui/playground";
 import { useEffect, useState } from "react";
-import { CallStep, useCall } from "./call";
+import { CallLog, useCall, useOnArrival } from "./call";
 import { catalog } from "./clients";
 
 // The registry's own lease and renewal interval (services/registry, catalog.go).
@@ -54,10 +54,9 @@ export function Catalog() {
   }
 
   // The first read, on arrival. Reading is all a catalog consumer does.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: once, on arrival
-  useEffect(() => {
+  useOnArrival(() => {
     void readCatalog();
-  }, []);
+  });
 
   // While the example stands, read again every few seconds so its lapse is seen
   // as it happens rather than asserted.
@@ -154,9 +153,9 @@ export function Catalog() {
         </Stack>
       </Card>
       <ScenarioSteps title="Calls made">
-        <CallStep title="Read the catalog" operation="RegistryService.GetCatalog" call={read.call} />
-        <CallStep title="Announce a datasource" operation="RegistryService.Announce" call={announce.call} />
-        <CallStep title="Announce without an address" operation="RegistryService.Announce" call={incomplete.call} />
+        <CallLog title="Read the catalog" operation="RegistryService.GetCatalog" calls={read.calls} />
+        <CallLog title="Announce a datasource" operation="RegistryService.Announce" calls={announce.calls} />
+        <CallLog title="Announce without an address" operation="RegistryService.Announce" calls={incomplete.calls} />
       </ScenarioSteps>
     </Stack>
   );

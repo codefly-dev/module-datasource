@@ -24,6 +24,32 @@ storage, tenant), driven from a browser by `code/tests/journeys.spec.ts`.
 | Someone else's access key is refused **by the store** | No credential, no read | `PermissionDenied: The Access Key Id you provided does not exist in our records` — past argument validation | verified |
 | The credential never reaches the browser | Fetch an item, This run | Privileged calls go through `/api/host/*`, server-rendered; the request shows `"credential": "handed over by the host for this call"` rather than a value | verified by inspection, not by a test asserting absence |
 | `datasource_catalog` and `bucket_describe` as agent tools | — | Derived by `codefly generate runnables`; `operation.json` carries each tool's name, description and `EFFECT_READ_ONLY` | unverified in the playground — no pane exercises a tool call |
+| Service versions — `RegistryService.Version`, `BucketService.Version` | This run | Both answer; the suite asserts `Unimplemented` appears nowhere on the pane | verified |
+
+## What the independent review changed
+
+A first-time-user review at `7fe0c73` found four things worth recording, three
+of them defects rather than polish:
+
+- **A capability badged `Demonstrated` did not work.** Supplying our own gRPC
+  server replaces the generated Version-only one, and the business types embed
+  `UnimplementedXServer`, so both `Version` endpoints answered 501 while the
+  card stayed green. Fixed in both services, with a regression test each.
+- **`Calls made` discarded what the comparison panes compare.** It kept the
+  latest call per kind while numbering entries like a log, so the three
+  refusals could never be seen together and page 2 replaced page 1. It now
+  appends, and a spec drives all three refusals to prove it.
+- **An instruction did not hold as written.** "after rewriting the documents
+  above, the same pinned fetch is refused" — it is not, because identical bytes
+  keep the identical version. The sentence now says to change the text first.
+- **`Compare: the same source with the tenant's credential` does not
+  compare** — it navigates to an empty pane, discarding the refusal just
+  produced. Not yet fixed.
+
+Two findings belong to the shared kit, not here, and are not patched in
+`node_modules`: `No response yet.` is shown under a **failed** call, where
+there will never be a response (`@codefly-dev/ui/dist/playground`), and the
+`next dev` indicator overlaps the write button at 390px wide.
 
 ## What this run substitutes for a deployment
 

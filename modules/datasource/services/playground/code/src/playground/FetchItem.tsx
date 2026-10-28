@@ -2,7 +2,7 @@ import { Badge, Button, Card, DescriptionList, Field, Grid, SegmentedControl, St
 import { CodeBlock } from "@codefly-dev/ui/content";
 import { ScenarioSteps } from "@codefly-dev/ui/playground";
 import { useEffect, useState } from "react";
-import { CallStep, useCall } from "./call";
+import { CallLog, useCall } from "./call";
 import { host } from "./clients";
 import { EXAMPLES, type Written } from "./examples";
 import { WriteExamples } from "./WriteExamples";
@@ -123,7 +123,7 @@ export function FetchItem({ written, onWritten }: { written: Written; onWritten:
       {versionRead && (
         <Card
           title="Read only while the version still holds"
-          description={`A version named in the request is a precondition, not a selector: the read happens only while the item still carries it. Fetch pinned to ${versionRead}; after rewriting the documents above, the same pinned fetch is refused.`}
+          description={`A version named in the request is a precondition, not a selector: the read happens only while the item still carries it. Fetch pinned to ${versionRead}; change the supply agreement's text above, write again, and the same pinned fetch is refused — identical bytes keep the identical version, so it is a changed item that breaks the pin, not a repeated write.`}
         >
           <Stack direction="row" gap={2}>
             <Button variant="secondary" onClick={() => void fetchItem(pinned, versionRead)} disabled={pinned.running}>
@@ -133,8 +133,8 @@ export function FetchItem({ written, onWritten }: { written: Written; onWritten:
         </Card>
       )}
       <ScenarioSteps title="Calls made">
-        <CallStep title="Fetch the item" operation="BucketService.FetchItem (credential handed over by the host)" call={fetched.call} />
-        <CallStep title="Fetch pinned to a version" operation="BucketService.FetchItem with version" call={pinned.call} />
+        <CallLog title="Fetch the item" operation="BucketService.FetchItem (credential handed over by the host)" calls={fetched.calls} />
+        <CallLog title="Fetch pinned to a version" operation="BucketService.FetchItem with version" calls={pinned.calls} />
       </ScenarioSteps>
     </Stack>
   );

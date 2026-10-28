@@ -1,7 +1,7 @@
 import { Card, DescriptionList, List, ListItem, Stack } from "@codefly-dev/ui/layout";
 import { ScenarioSteps } from "@codefly-dev/ui/playground";
 import { useEffect } from "react";
-import { CallStep, useCall } from "./call";
+import { CallLog, useCall, useOnArrival } from "./call";
 import { catalog, datasource } from "./clients";
 
 // What this run is, and what it substitutes for a deployment.
@@ -9,11 +9,10 @@ export function ThisRun() {
   const registryVersion = useCall<string>();
   const bucketVersion = useCall<string>();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: once, on arrival
-  useEffect(() => {
+  useOnArrival(() => {
     void registryVersion.run({}, async () => (await catalog.version({})).version, (version) => `registry ${version}`);
     void bucketVersion.run({}, async () => (await datasource.version({})).version, (version) => `bucket ${version}`);
-  }, []);
+  });
 
   return (
     <Stack gap={6}>
@@ -45,8 +44,8 @@ export function ThisRun() {
         </List>
       </Card>
       <ScenarioSteps title="Calls made">
-        <CallStep title="Registry version" operation="RegistryService.Version" call={registryVersion.call} />
-        <CallStep title="Bucket version" operation="BucketService.Version" call={bucketVersion.call} />
+        <CallLog title="Registry version" operation="RegistryService.Version" calls={registryVersion.calls} />
+        <CallLog title="Bucket version" operation="BucketService.Version" calls={bucketVersion.calls} />
       </ScenarioSteps>
     </Stack>
   );

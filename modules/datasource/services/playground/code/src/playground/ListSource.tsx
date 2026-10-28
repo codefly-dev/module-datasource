@@ -1,7 +1,7 @@
 import { Badge, Button, Card, Field, SegmentedControl, Stack, Table, TableBody, TableCell, TableEmptyState, TableHead, TableHeader, TableRow } from "@codefly-dev/ui/layout";
 import { ScenarioSteps } from "@codefly-dev/ui/playground";
 import { useState } from "react";
-import { CallStep, useCall } from "./call";
+import { CallLog, useCall } from "./call";
 import { host } from "./clients";
 import { TENANT_FOLDER, type Written } from "./examples";
 import { WriteExamples } from "./WriteExamples";
@@ -104,7 +104,7 @@ export function ListSource({ written, onWritten, onListed }: { written: Written;
         </Stack>
       </Card>
       <ScenarioSteps title="Calls made">
-        <CallStep title="List one page" operation="BucketService.ListItems (credential handed over by the host)" call={list.call} />
+        <CallLog title="List one page" operation="BucketService.ListItems (credential handed over by the host)" calls={list.calls} />
       </ScenarioSteps>
     </Stack>
   );

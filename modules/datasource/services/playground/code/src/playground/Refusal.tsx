@@ -2,7 +2,7 @@ import type { ListItemsRequest, ListItemsResponse } from "@codefly-dev/datasourc
 import { Badge, Banner, Button, Card, DescriptionList, Field, SegmentedControl, Stack } from "@codefly-dev/ui/layout";
 import { ScenarioSteps } from "@codefly-dev/ui/playground";
 import { useEffect, useState } from "react";
-import { CallStep, useCall } from "./call";
+import { CallLog, useCall } from "./call";
 import { datasource } from "./clients";
 import { TENANT_FOLDER } from "./examples";
 
@@ -28,6 +28,9 @@ type Attempt = keyof typeof ATTEMPTS;
 export function Refusal({ onOpen }: { onOpen: (scenario: string) => void }) {
   const [source, setSource] = useState<Source>();
   const [attempt, setAttempt] = useState<Attempt>("none");
+  // Which credential each log entry carried, so it names the attempt it
+  // actually made rather than whichever variant is selected when it is read.
+  const [attempted, setAttempted] = useState<Attempt[]>([]);
   const read = useCall<ListItemsResponse>();
 
   useEffect(() => {
@@ -100,7 +103,7 @@ export function Refusal({ onOpen }: { onOpen: (scenario: string) => void }) {
         </Stack>
       </Card>
       <ScenarioSteps title="Calls made">
-        <CallStep title={`Read carrying: ${ATTEMPTS[attempt].label.toLowerCase()}`} operation="BucketService.ListItems (from the browser)" call={read.call} />
+        <CallLog title={(index) => `Read carrying: ${ATTEMPTS[attempted[index] ?? attempt].label.toLowerCase()}`} operation="BucketService.ListItems (from the browser)" calls={read.calls} />
       </ScenarioSteps>
     </Stack>
   );

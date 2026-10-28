@@ -3,7 +3,7 @@ import type { Datasource } from "@codefly-dev/datasource-registry-client";
 import { Badge, Button, Card, DescriptionList, Grid, Stack } from "@codefly-dev/ui/layout";
 import { ScenarioSteps } from "@codefly-dev/ui/playground";
 import { useEffect } from "react";
-import { CallStep, useCall } from "./call";
+import { CallLog, useCall, useOnArrival } from "./call";
 import { catalog, datasource } from "./clients";
 
 const FIELDS = ["name", "title", "kinds", "requiresCredential", "streams"] as const;
@@ -34,10 +34,9 @@ export function Describe() {
     );
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: once, on arrival
-  useEffect(() => {
+  useOnArrival(() => {
     void ask();
-  }, []);
+  });
 
   const answer = described.result;
   const entry = announced.result;
@@ -89,8 +88,8 @@ export function Describe() {
         </Badge>
       )}
       <ScenarioSteps title="Calls made">
-        <CallStep title="Ask the datasource to describe itself" operation="BucketService.Describe" call={described.call} />
-        <CallStep title="Find its catalog entry" operation="RegistryService.GetCatalog" call={announced.call} />
+        <CallLog title="Ask the datasource to describe itself" operation="BucketService.Describe" calls={described.calls} />
+        <CallLog title="Find its catalog entry" operation="RegistryService.GetCatalog" calls={announced.calls} />
       </ScenarioSteps>
     </Stack>
   );
