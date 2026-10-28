@@ -79,6 +79,11 @@ func main() {
 	if net := codefly.For(ctx).API(standards.REST).NetworkInstance(); net != nil {
 		config.EndpointHttpPort = shared.Pointer(net.Port)
 	}
+	connectInstance, err := codefly.For(ctx).API(standards.CONNECT).ResolveNetworkInstance()
+	if err != nil {
+		panic(fmt.Errorf("cannot resolve this service's %s address: %w", standards.CONNECT, err))
+	}
+	config.EndpointConnectPort = shared.Pointer(connectInstance.Port)
 	if configure != nil {
 		clean, err := configure(ctx, config)
 		if err != nil {

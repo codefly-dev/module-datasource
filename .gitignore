@@ -17,3 +17,11 @@ coverage.txt
 
 # Image SBOM evidence written by SOS_SBOM_OUTPUT
 /sbom/
+
+# Build caches and installed dependencies. The agents build into .cache/native
+# and npm installs into node_modules; neither is source, and a committed binary
+# goes stale the moment the code moves.
+.cache/
+node_modules/
+dist/
+.next/

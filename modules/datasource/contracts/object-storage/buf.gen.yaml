@@ -1,7 +1,8 @@
 version: v1
 # The object-storage contract is the agent's own, pinned by commit in PINNED.
-# Only the bindings are generated here: the bucket datasource dials the gateway
-# through them, so no client is hand-written.
+# Only the bindings are generated here — the bucket datasource dials the
+# gateway through the Go ones, and the playground seeds the tenant store
+# through the TypeScript ones — so no client is hand-written.
 managed:
   enabled: false
 plugins:
@@ -13,3 +14,7 @@ plugins:
     path: protoc-gen-go-grpc
     out: ../../services/bucket/code/pkg/gen/storage
     opt: paths=source_relative
+  - name: es
+    path: protoc-gen-es
+    out: ../../services/playground/code/src/gen/storage
+    opt: target=ts,import_extension=js
