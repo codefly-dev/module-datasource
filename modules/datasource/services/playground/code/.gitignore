@@ -3,3 +3,6 @@ node_modules
 out
 dist
 tsconfig.tsbuildinfo
+
+# Playwright artefacts live outside code/ (see playwright.config.ts).
+/test-results/
