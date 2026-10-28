@@ -68,7 +68,14 @@ export function Describe() {
         </Card>
         <Card title="What the catalog holds for it" description="The same datasource's entry in RegistryService.GetCatalog.">
           {entry ? (
-            <DescriptionList items={FIELDS.map((field) => ({ term: field, value: shown(entry, field) })).concat([{ term: "address", value: entry.address }])} />
+            <DescriptionList
+              items={[
+                ...FIELDS.map((field) => ({ term: field as string, value: shown(entry, field) })),
+                // The address is the catalog's own: a datasource announces it,
+                // and its Describe answer does not carry it.
+                { term: "address", value: entry.address },
+              ]}
+            />
           ) : (
             announced.call?.state === "done" && "Not in the catalog right now — it has not announced, or its announcement lapsed."
           )}

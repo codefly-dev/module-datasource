@@ -39,7 +39,7 @@ export function Refusal({ onOpen }: { onOpen: (scenario: string) => void }) {
   async function attemptRead() {
     if (!source) return;
     const { credential } = ATTEMPTS[attempt];
-    const request = { source, ...(credential ? { credential } : {}) } as unknown as Partial<ListItemsRequest>;
+    const request = { source, ...(credential ? { credential } : {}) };
     await read.run(
       { source, credential: credential ?? "(none)" },
       () => datasource.listItems(request),

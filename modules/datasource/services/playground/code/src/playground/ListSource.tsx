@@ -18,7 +18,7 @@ const PAGE_SIZES = [
   { value: "100", label: "100 per page" },
 ];
 
-export function ListSource({ written, onWritten, onListed }: { written: Written; onWritten: (written: Written) => void; onListed: (items: ListedItem[]) => void }) {
+export function ListSource({ written, onWritten, onListed }: { written: Written; onWritten: (written: Written) => void; onListed?: (items: ListedItem[]) => void }) {
   const [prefix, setPrefix] = useState(TENANT_FOLDER);
   const [limit, setLimit] = useState("2");
   const [pages, setPages] = useState<Page["response"][]>([]);
@@ -35,7 +35,7 @@ export function ListSource({ written, onWritten, onListed }: { written: Written;
     if (!page) return;
     const next = pageToken ? [...pages, page.response] : [page.response];
     setPages(next);
-    onListed(next.flatMap((each) => each.items ?? []));
+    onListed?.(next.flatMap((each) => each.items ?? []));
   }
 
   const items = pages.flatMap((page) => page.items ?? []);
