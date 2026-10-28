@@ -17,6 +17,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	codefly "github.com/codefly-dev/sdk-go"
+
 	gen "registry/pkg/gen"
 )
 
@@ -52,6 +54,15 @@ type announcement struct {
 // New builds an empty catalog.
 func New() *Catalog {
 	return &Catalog{now: time.Now, announced: map[string]announcement{}}
+}
+
+// Version answers which build is serving.
+//
+// The generated adapter serves this only until a service supplies its own
+// implementation; this type is that implementation, so without this method the
+// endpoint answers Unimplemented.
+func (c *Catalog) Version(_ context.Context, _ *gen.VersionRequest) (*gen.VersionResponse, error) {
+	return &gen.VersionResponse{Version: codefly.ServiceVersion()}, nil
 }
 
 // Announce publishes a datasource or renews it. Announcing again replaces what

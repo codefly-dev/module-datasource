@@ -17,6 +17,8 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
+	codefly "github.com/codefly-dev/sdk-go"
+
 	gen "bucket/pkg/gen"
 	storagev0 "bucket/pkg/gen/storage/codefly/storage/v0"
 )
@@ -31,6 +33,15 @@ type Datasource struct {
 // New builds the datasource over a gateway client the caller already dialled.
 func New(gateway storagev0.ObjectStorageClient) *Datasource {
 	return &Datasource{gateway: gateway}
+}
+
+// Version answers which build is serving.
+//
+// The generated adapter serves this only until a service supplies its own
+// implementation; this type is that implementation, so without this method the
+// endpoint answers Unimplemented.
+func (d *Datasource) Version(_ context.Context, _ *gen.VersionRequest) (*gen.VersionResponse, error) {
+	return &gen.VersionResponse{Version: codefly.ServiceVersion()}, nil
 }
 
 // Description is what this datasource says about itself. It is a package
